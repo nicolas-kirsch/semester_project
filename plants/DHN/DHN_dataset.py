@@ -68,7 +68,6 @@ class DHNDataset(CostumDataset):
 
         d = torch.zeros(n_data_total,self.horizon,n_w)  
         
-        plt.figure()
         for i in range(n_data_total):
             d[i] = (torch.from_numpy(smoothed_heat_demand).reshape(self.horizon,n_w) + 3*torch.randn(self.horizon,n_w))*0.5
             #d[i] = torch.from_numpy(heat_demand).reshape(self.horizon,n_w) 

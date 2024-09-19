@@ -21,7 +21,7 @@ from loss_functions import DHNLoss
 
 # ----- SET UP LOGGER -----
 now = datetime.now().strftime("%m_%d_%H_%M_%S")
-save_path = os.path.join(BASE_DIR, 'experiments', 'LTI', 'saved_results')
+save_path = os.path.join(BASE_DIR, 'experiments', 'DHN', 'saved_results',"log")
 save_folder = os.path.join(save_path, 'perf_boost_'+now)
 os.makedirs(save_folder)
 logging.basicConfig(filename=os.path.join(save_folder, 'log'), format='%(asctime)s %(message)s', filemode='w')
