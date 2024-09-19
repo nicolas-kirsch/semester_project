@@ -1,5 +1,5 @@
 import torch
-from assistive_functions import to_tensor, saturate
+from assistive_functions import to_tensor
 import numpy as np
 import torch.nn.functional as F
 from config import device
@@ -18,6 +18,7 @@ class DHNSystem(torch.nn.Module):
         self.umax = umax
         self.umin = umin
         self.xref = xref
+
         A = np.array([[gamma]])
         B = np.array([[self.cop/(self.mass*self.cp)]])
 
@@ -37,8 +38,6 @@ class DHNSystem(torch.nn.Module):
 
         self.Kr = self.K+F.linear(self.B_inv,self.I-self.A).to(device)
 
-        u_i = F.linear(self.Kr,self.xref)
-
         self.x_init = to_tensor(np.array([[0]]))
 
         # Dimensions
@@ -55,7 +54,18 @@ class DHNSystem(torch.nn.Module):
         self.u_init = torch.full((1, int(self.x_init.shape[1])),float(0)).to(device) if u_init is None else u_init.reshape(1, -1)   # shape = (1, in_dim)
         #self.u_init = torch.full((1, int(self.x_init.shape[1])),-xref.item()).to(device) if u_init is None else u_init.reshape(1, -1)   # shape = (1, in_dim)
 
-    def base_controller(self,x: torch.Tensor, u: torch.Tensor,I,Kr):
+    def base_controller(self,x: torch.Tensor, u: torch.Tensor,Kr):
+        """
+        output of the base controller
+
+        Args:
+            - x (torch.Tensor): plant's state at t. shape = (batch_size, 1, state_dim)
+            - u (torch.Tensor): plant's input at t. shape = (batch_size, 1, in_dim)
+            - Kr (torch.Tensor): Gain of the base controller.
+
+        Returns:
+            next state without the noise.
+        """
 
         u_cont = F.linear(x,-self.K) + F.linear(u,Kr) 
         
@@ -63,12 +73,24 @@ class DHNSystem(torch.nn.Module):
         return u_cont
 
     def noiseless_forward(self, x: torch.Tensor, u: torch.Tensor):
+        """
+        forward of the plant without the process noise.
+
+        Args:
+            - x (torch.Tensor): plant's state at t. shape = (batch_size, 1, state_dim)
+            - u (torch.Tensor): plant's input at t. shape = (batch_size, 1, in_dim)
+
+        Returns:
+            next state without the noise.
+        """
+
+
         x = x.view(-1, 1, self.state_dim)
         #delta x_ref
         dxref = u.view(-1, 1, self.in_dim)
         xref = self.xref.view(-1, 1, self.in_dim)
         
-        u_base = self.base_controller(x,xref,self.I,self.Kr) 
+        u_base = self.base_controller(x,xref,self.Kr) 
 
         u_PB = F.linear(dxref,self.Kr)    
 
@@ -80,6 +102,7 @@ class DHNSystem(torch.nn.Module):
 
         f = F.linear(x,self.A)+ F.linear(u_cont,self.B)
 
+        #Save base controller input
         self.u_cont = u_cont
 
         return f

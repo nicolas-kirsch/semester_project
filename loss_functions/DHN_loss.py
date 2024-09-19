@@ -16,8 +16,7 @@ from assistive_functions import to_tensor
 class DHNLoss():
     def __init__(
         self, R, u_min, u_max, x_min,x_max,
-        alpha_xl=None, alpha_xh=None,
-        alpha_ul=None,alpha_uh = None,loss_bound=None, sat_bound=None,
+        alpha_xl=None, alpha_xh=None
     ):
         
         self.umin = to_tensor(u_min).to(device)
@@ -26,10 +25,9 @@ class DHNLoss():
         self.xmax = to_tensor(x_max).to(device)
 
         self.alpha_xl = alpha_xl
-        self.alpha_ul = alpha_ul
         self.alpha_xh = alpha_xh
-        self.alpha_uh = alpha_uh
 
+        #Weight of the base lost
         self.R = R
         self.R = to_tensor(self.R)
         if isinstance(self.R, torch.Tensor):     # cast to device if is not a scalar
@@ -37,10 +35,10 @@ class DHNLoss():
         assert (not hasattr(self.R, "__len__")) or len(self.R.shape) == 2  # int or square matrix
         print(self.R)
 
+
+        #Create tariff over time vector
         high = [3]*12
         low = [1]*12
-
-
         self.tariff = torch.tensor(high+low).to(device)
 
 
@@ -94,28 +92,13 @@ class DHNLoss():
             loss_xl = self.alpha_xl * self.f_lower_bound_x(x_batch) # shape = (S, 1, 1)
         
         
-        # upper bound on input loss
-        if self.alpha_uh is None:
-            loss_uh = 0
-        else:
-            loss_uh = self.alpha_uh * self.f_upper_bound_u(u2_batch) # shape = (S, 1, 1)
-
-
-        
-
-        # lower bound on input loss
-        if self.alpha_ul is None:
-            loss_ul = 0
-        else:
-            loss_ul = self.alpha_ul * self.f_lower_bound_u(u2_batch) # shape = (S, 1, 1)
-
 
         self.l_xl = torch.sum(loss_xl, 0)/xs.shape[0]
         
         self.l_xh = torch.sum(loss_xh, 0)/xs.shape[0]
 
         # sum up all losses
-        loss_val = loss_u + loss_ul + loss_uh + loss_xh + loss_xl          # shape = (S, 1, 1)
+        loss_val = loss_u + loss_xh + loss_xl          # shape = (S, 1, 1)
         
         loss_val = torch.sum(loss_val, 0)/xs.shape[0]       # shape = (1, 1)
         return loss_val 
@@ -140,35 +123,6 @@ class DHNLoss():
     def f_lower_bound_x(self, x_batch,s = True):
 
         delta = self.xmin - x_batch  
-
-
-        loss_bound = torch.relu(delta)
-        if s == True: 
-            loss_xl = loss_bound.sum(1)/loss_bound.shape[1]
-            return loss_xl.reshape(-1,1,1)
-        else: 
-            return loss_bound
-
-
-    def f_upper_bound_u(self, u_batch): 
-        """
-        Args:
-            - x_batched: tensor of shape (S, T, state_dim, 1)
-        """
-
-        
-        delta = u_batch - self.umax  
-
-
-        loss_bound = torch.relu(delta)
-        loss_uh = loss_bound.sum(1)/loss_bound.shape[1]
-        return loss_uh.reshape(-1,1,1)
-
-
-
-    def f_lower_bound_u(self, u_batch,s =True):
-
-        delta = self.umin - u_batch  
 
 
         loss_bound = torch.relu(delta)

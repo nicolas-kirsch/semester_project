@@ -13,9 +13,9 @@ sys.path.insert(1, BASE_DIR)
 
 from config import device
 from controllers import PerfBoostController
-from arg_parser import argument_parser, print_args
+from arg_parser import argument_parser
 from plants import DHNDataset, DHNSystem
-from assistive_functions import WrapLogger,heaviside
+from assistive_functions import WrapLogger
 from loss_functions import DHNLoss
 
 
@@ -100,17 +100,9 @@ ctl = PerfBoostController(
     output_amplification=20,
 ).to(device)
 
-"""for train_data_batch in train_dataloader:
-    x_log, u_log = sys.rollout(controller=ctl, data=train_data_batch)
-
-"""
 
 # ------------ 4. Loss ------------
 #Size of the minimization 
-
-
-
-
 loss_fn = DHNLoss(
     R=args.alpha_u, u_min=u_min, u_max=u_max, x_min=x_min,x_max=x_max,
     alpha_xh=50,    
@@ -195,35 +187,6 @@ x_log_test = x_log_test.cpu()
 u_log_test = u_log_test.cpu()
 dxref_test = dxref_test.cpu()
 
-v = list(map(float,list(range(-100,100))))
-
-res = []
-for i in v:
-    vals = torch.tensor([[[i]]]).to(device)
-    res.append(ctl.c_ren.forward(vals).cpu().detach().item())
-
-plt.figure()
-plt.plot(v,res)
-plt.savefig("check.png")
-
-"""plt.figure()
-for i in range(test_data.shape[0]): 
-    plt.plot(range(test_data.shape[1]),lower_bound_losses[i])
-    plt.title("Loss X profile over the horizon")
-    plt.xlabel("Time (h)")
-    plt.ylabel("Loss X")
-plt.savefig("saved_results/lower_bound_loss.png")
-"""
-
-
-"""plt.figure()
-for i in range(test_data.shape[0]): 
-    plt.plot(range(test_data.shape[1]),lower_bound_u[i])
-    plt.title("Loss  U profile over the horizon")
-    plt.xlabel("Time (h)")
-    plt.ylabel("Loss U")
-plt.savefig("saved_results/lower_bound_u.png")
-"""
 
 
 plt.figure()

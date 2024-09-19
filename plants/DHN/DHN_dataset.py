@@ -53,33 +53,34 @@ class DHNDataset(CostumDataset):
         n_states = 1
         n_w = n_states
 
+        #Rescale demand to size
+        rescale = 0.2
+
 
         # Define the window size for the moving average
         window_size = 3
 
         # Initial heat demand profile (baseline)
         heat_demand =  [30,20, 25, 30, 35, 40, 50, 60, 70, 80, 100, 90, 80, 70, 60, 50, 60, 80, 100, 90, 80, 70, 50, 40]
-        #heat_demand = np.zeros(len(heat_demand))
         # Compute the moving average
         smoothed_heat_demand = -np.convolve(heat_demand, np.ones(window_size)/window_size, mode='same')
  
+        #Initial temperature 
         data_x0 = ((self.xmin + (self.xmax-self.xmin)*torch.rand(n_data_total, n_states).to(device)))
-        #data_x0 = ((torch.rand(n_data_total, n_states)))
 
+
+        #Generate consumption data 
         d = torch.zeros(n_data_total,self.horizon,n_w)  
-        
         for i in range(n_data_total):
-            d[i] = (torch.from_numpy(smoothed_heat_demand).reshape(self.horizon,n_w) + 3*torch.randn(self.horizon,n_w))*0.5
-            #d[i] = torch.from_numpy(heat_demand).reshape(self.horizon,n_w) 
-            #d[i] = (torch.from_numpy(smoothed_heat_demand).reshape(self.horizon,n_w))*0.5
-            
+            d[i] = (torch.from_numpy(smoothed_heat_demand).reshape(self.horizon,n_w) + 3*torch.randn(self.horizon,n_w))*rescale
+
 
             d[i][0] = data_x0[i]*self.cp*self.mass
 
             plt.plot(list(range(len(d[i]))),d[i].cpu())
-        plt.savefig("dede.png")  
+        plt.savefig("Toy_Data.png")  
         
-        data = d
+        d
 
 
-        return data
+        return d

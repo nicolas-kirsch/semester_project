@@ -79,6 +79,8 @@ class ContractiveREN(nn.Module):
         # v signal
         self.D12_shape = (self.dim_nl, self.dim_in)
 
+
+        #Biases
         self.b_xi_shape = (1,self.dim_internal)
         self.b_v_shape = (1,self.dim_nl)
         self.b_y_shape = (1,1)
@@ -88,10 +90,6 @@ class ContractiveREN(nn.Module):
         self.training_param_names = ['X', 'Y', 'B2', 'C2', 'D21', 'D12','D22','b_y','b_v','b_xi']
         self._init_trainable_params(initialization_std)
     
-        """setattr(self, "b_xi", nn.Parameter((torch.zeros(*self.b_xi_shape) )))
-        setattr(self, "b_v", nn.Parameter((torch.zeros(*self.b_v_shape) )))
-        setattr(self, "b_y", nn.Parameter((torch.zeros(*self.b_y_shape) )))"""
-
 
         # mask
         self.register_buffer('eye_mask_H', torch.eye(2 * self.dim_internal + self.dim_nl))
@@ -150,10 +148,8 @@ class ContractiveREN(nn.Module):
             F.linear(self.x, self.F) + F.linear(w, self.B1) + F.linear(u_in, self.B2) + self.b_xi,
             self.E.inverse()) 
 
-        #self.by = torch.zeros(1,2).to(device)
-        #self.by[:,0] = self.b_y
-        # compute output
 
+        # compute output
         y_out = F.linear(self.x, self.C2) + F.linear(w, self.D21) + F.linear(u_in, self.D22) + self.b_y
 
         return y_out
