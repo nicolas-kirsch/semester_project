@@ -15,10 +15,12 @@ from assistive_functions import to_tensor
 
 class DHNLoss():
     def __init__(
-        self, R, u_min, u_max, x_min,x_max,
+        self, R, u_min, u_max, x_min,x_max,peak = False,
         alpha_xl=None, alpha_xh=None
     ):
         
+        self.peak = peak
+
         self.umin = to_tensor(u_min).to(device)
         self.umax = to_tensor(u_max).to(device)
         self.xmin = to_tensor(x_min).to(device)
@@ -61,23 +63,26 @@ class DHNLoss():
         dxref = dxref.reshape(*dxref.shape, 1)
 
 
-        u2_batch = us.reshape(*us.shape, 1)
         # loss states = 1/T sum_{t=1}^T (x_t-xbar)^T Q (x_t-xbar)
         
         # loss control actions = 1/T sum_{t=1}^T u_t^T R u_t
-        uTRu = self.R * torch.matmul(
-            u_batch.transpose(-1, -2),
-            u_batch
-        )   # shape = (S, T, 1, 1)
-
-        u_b = u_batch.clone()
-
-        for i in range(13):
-            u_b[:,i,:,:] = u_b[:,i,:,:]*10
 
 
-        #loss_u = torch.sum(u_b, 1) / x_batch.shape[1]    # average over the time horizon. shape = (S, 1, 1)
-        loss_u = torch.sum(uTRu, 1) / x_batch.shape[1] 
+
+        if self.peak:
+            u_b = u_batch.clone()
+            for i in range(13):
+                u_b[:,i,:,:] = u_b[:,i,:,:]*10
+            loss_u = torch.sum(u_b, 1) / x_batch.shape[1]    # average over the time horizon. shape = (S, 1, 1)
+        
+        else: 
+            uTRu = self.R * torch.matmul(
+                u_batch.transpose(-1, -2),
+                u_batch
+            )   # shape = (S, T, 1, 1)
+            loss_u = torch.sum(uTRu, 1) / x_batch.shape[1] 
+
+
 
         # upper bound on temperature loss
         if self.alpha_xh is None:

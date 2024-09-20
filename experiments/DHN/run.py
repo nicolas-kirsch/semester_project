@@ -34,6 +34,9 @@ args = argument_parser()
 # msg = print_args(args)    # TODO
 # logger.info(msg)
 
+
+peak_tarif = True 
+
 mass = 2200 #kg
 cop = 3.53 
 cp = 1.16*10**(-3) #(kWh.J^-1.K^-1)
@@ -105,6 +108,7 @@ ctl = PerfBoostController(
 #Size of the minimization 
 loss_fn = DHNLoss(
     R=args.alpha_u, u_min=u_min, u_max=u_max, x_min=x_min,x_max=x_max,
+    peak = peak_tarif,
     alpha_xh=50,    
     alpha_xl=50,
 )

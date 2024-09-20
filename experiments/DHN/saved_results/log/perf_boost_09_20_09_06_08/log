@@ -1,0 +1,13 @@
+2024-09-20 09:06:08,798 
+------------ Begin training ------------
+2024-09-20 09:06:09,097 Epoch: 0 --- train loss: 1023.63 --- Loss xl : 1015.94 ---||--- validation loss: 536.58  --- Loss x low: 524.81 ---  loss x high: 0.00 (best so far) ---||--- time: 0 s
+2024-09-20 09:06:09,266 Epoch: 1 --- train loss: 536.58 --- Loss xl : 524.81 ---||--- validation loss: 91.21  --- Loss x low: 73.83 ---  loss x high: 1.21 (best so far) ---||--- time: 0 s
+2024-09-20 09:06:09,432 Epoch: 2 --- train loss: 91.21 --- Loss xl : 73.83 ---||--- validation loss: 310.41  --- Loss x low: 0.00 ---  loss x high: 288.70 ---||--- time: 0 s
+2024-09-20 09:06:09,598 Epoch: 3 --- train loss: 310.41 --- Loss xl : 0.00 ---||--- validation loss: 166.57  --- Loss x low: 0.00 ---  loss x high: 146.09 ---||--- time: 0 s
+2024-09-20 09:06:09,765 Epoch: 4 --- train loss: 166.57 --- Loss xl : 0.00 ---||--- validation loss: 55.18  --- Loss x low: 0.01 ---  loss x high: 36.97 (best so far) ---||--- time: 0 s
+2024-09-20 09:06:09,932 Epoch: 5 --- train loss: 55.18 --- Loss xl : 0.01 ---||--- validation loss: 76.28  --- Loss x low: 54.50 ---  loss x high: 5.33 ---||--- time: 0 s
+2024-09-20 09:06:10,099 Epoch: 6 --- train loss: 76.28 --- Loss xl : 54.50 ---||--- validation loss: 131.92  --- Loss x low: 114.96 ---  loss x high: 1.23 ---||--- time: 0 s
+2024-09-20 09:06:10,265 Epoch: 7 --- train loss: 131.92 --- Loss xl : 114.96 ---||--- validation loss: 127.75  --- Loss x low: 110.86 ---  loss x high: 1.12 ---||--- time: 0 s
+2024-09-20 09:06:10,432 Epoch: 8 --- train loss: 127.75 --- Loss xl : 110.86 ---||--- validation loss: 83.61  --- Loss x low: 64.28 ---  loss x high: 3.03 ---||--- time: 0 s
+2024-09-20 09:06:10,601 Epoch: 9 --- train loss: 83.61 --- Loss xl : 64.28 ---||--- validation loss: 43.06  --- Loss x low: 15.13 ---  loss x high: 10.83 (best so far) ---||--- time: 0 s
+2024-09-20 09:06:10,768 Epoch: 10 --- train loss: 43.06 --- Loss xl : 15.13 ---||--- validation loss: 43.24  --- Loss x low: 0.41 ---  loss x high: 24.98 ---||--- time: 0 s
