@@ -22,7 +22,7 @@ class CostumDataset(Dataset):
             os.makedirs(file_path)
         self.file_name = os.path.join(file_path, file_name)
 
-    def _generate_data(self, num_samples):
+    def _generate_data(self, num_samples):      # placeholder
         '''
         Complete the template to extend the "CostumDataset" class
         '''
@@ -44,8 +44,8 @@ class CostumDataset(Dataset):
         '''
         No need to change. Generates and saves train and test datasets.
         '''
-        train_data_full = self._generate_data(1024)
-        test_data = self._generate_data(1024)
+        train_data_full = self._generate_data(1024, mode = "train")         ##  #default for both test and train is 1024
+        test_data = self._generate_data(1024, mode = "test")
         # save
         filehandler = open(self.file_name, 'wb')
         pickle.dump({'train_data_full': train_data_full.detach().cpu(), 'test_data': test_data.detach().cpu()}, filehandler)
@@ -59,8 +59,9 @@ class CostumDataset(Dataset):
         print(self.file_name)
         print("Oula")
         # check if data exists
-        if not os.path.isfile(self.file_name):
-            print("OKOKOK")
+        # if not os.path.isfile(self.file_name):        ## commented, replaced by True
+        if True:
+            print("OKOKOK (generating new data)")
             self._save_data()
         # load data
         filehandler = open(self.file_name, 'rb')

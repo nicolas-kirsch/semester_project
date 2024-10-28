@@ -1,0 +1,13 @@
+2024-10-06 16:07:07,044 
+------------ Begin training ------------
+2024-10-06 16:07:07,152 Epoch: 0 --- train loss: 0.00 --- Loss xl : 1212.79 ---||--- validation loss: 0.00  --- Loss x low: 1212.79 ---  loss x high: 0.00 (best so far) ---||--- time: 0 s
+2024-10-06 16:07:07,332 Epoch: 2 --- train loss: 0.00 --- Loss xl : 1212.79 ---||--- validation loss: 0.00  --- Loss x low: 1212.79 ---  loss x high: 0.00 ---||--- time: 0 s
+2024-10-06 16:07:07,492 Epoch: 4 --- train loss: 0.00 --- Loss xl : 1212.79 ---||--- validation loss: 0.00  --- Loss x low: 1212.79 ---  loss x high: 0.00 ---||--- time: 0 s
+2024-10-06 16:07:07,657 Epoch: 6 --- train loss: 0.00 --- Loss xl : 1212.79 ---||--- validation loss: 0.00  --- Loss x low: 1212.79 ---  loss x high: 0.00 ---||--- time: 0 s
+2024-10-06 16:07:07,855 Epoch: 8 --- train loss: 0.00 --- Loss xl : 1212.79 ---||--- validation loss: 0.00  --- Loss x low: 1212.79 ---  loss x high: 0.00 ---||--- time: 0 s
+2024-10-06 16:07:08,011 Epoch: 10 --- train loss: 0.00 --- Loss xl : 1212.79 ---||--- validation loss: 0.00  --- Loss x low: 1212.79 ---  loss x high: 0.00 ---||--- time: 0 s
+2024-10-06 16:07:08,186 Epoch: 12 --- train loss: 0.00 --- Loss xl : 1212.79 ---||--- validation loss: 0.00  --- Loss x low: 1212.79 ---  loss x high: 0.00 ---||--- time: 0 s
+2024-10-06 16:07:08,350 Epoch: 14 --- train loss: 0.00 --- Loss xl : 1212.79 ---||--- validation loss: 0.00  --- Loss x low: 1212.79 ---  loss x high: 0.00 ---||--- time: 0 s
+2024-10-06 16:07:08,520 Epoch: 16 --- train loss: 0.00 --- Loss xl : 1212.79 ---||--- validation loss: 0.00  --- Loss x low: 1212.79 ---  loss x high: 0.00 ---||--- time: 0 s
+2024-10-06 16:07:08,685 Epoch: 18 --- train loss: 0.00 --- Loss xl : 1212.79 ---||--- validation loss: 0.00  --- Loss x low: 1212.79 ---  loss x high: 0.00 ---||--- time: 0 s
+2024-10-06 16:07:08,849 Epoch: 20 --- train loss: 0.00 --- Loss xl : 1212.79 ---||--- validation loss: 0.00  --- Loss x low: 1212.79 ---  loss x high: 0.00 ---||--- time: 0 s

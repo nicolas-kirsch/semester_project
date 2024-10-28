@@ -1,0 +1,13 @@
+2024-10-07 03:34:07,204 
+------------ Begin training ------------
+2024-10-07 03:34:07,359 Epoch: 0 --- train loss: 1274.38 --- Loss xl : 1267.77 ---||--- validation loss: 964.91  --- Loss x low: 956.91 ---  loss x high: 0.21 (best so far) ---||--- time: 0 s
+2024-10-07 03:35:08,662 Epoch: 200 --- train loss: 16.73 --- Loss xl : 1.60 ---||--- validation loss: 16.72  --- Loss x low: 1.60 ---  loss x high: 1.33 (best so far) ---||--- time: 61 s
+2024-10-07 03:36:06,105 Epoch: 400 --- train loss: 16.01 --- Loss xl : 1.21 ---||--- validation loss: 16.01  --- Loss x low: 1.21 ---  loss x high: 1.08 (best so far) ---||--- time: 57 s
+2024-10-07 03:36:37,554 Epoch: 600 --- train loss: 15.85 --- Loss xl : 1.21 ---||--- validation loss: 15.85  --- Loss x low: 1.21 ---  loss x high: 1.06 (best so far) ---||--- time: 31 s
+2024-10-07 03:37:41,089 Epoch: 800 --- train loss: 39.40 --- Loss xl : 8.06 ---||--- validation loss: 40.90  --- Loss x low: 3.78 ---  loss x high: 24.27 ---||--- time: 64 s
+2024-10-07 03:38:43,391 Epoch: 1000 --- train loss: 16.69 --- Loss xl : 1.55 ---||--- validation loss: 16.69  --- Loss x low: 1.55 ---  loss x high: 1.30 ---||--- time: 62 s
+2024-10-07 03:39:39,398 Epoch: 1200 --- train loss: 16.50 --- Loss xl : 1.44 ---||--- validation loss: 16.50  --- Loss x low: 1.44 ---  loss x high: 1.25 ---||--- time: 56 s
+2024-10-07 03:40:42,869 Epoch: 1400 --- train loss: 16.36 --- Loss xl : 1.35 ---||--- validation loss: 16.36  --- Loss x low: 1.35 ---  loss x high: 1.20 ---||--- time: 63 s
+2024-10-07 03:41:45,557 Epoch: 1600 --- train loss: 16.21 --- Loss xl : 1.27 ---||--- validation loss: 16.21  --- Loss x low: 1.27 ---  loss x high: 1.14 ---||--- time: 63 s
+2024-10-07 03:42:50,627 Epoch: 1800 --- train loss: 16.01 --- Loss xl : 1.18 ---||--- validation loss: 16.01  --- Loss x low: 1.18 ---  loss x high: 1.06 ---||--- time: 65 s
+2024-10-07 03:43:48,829 Epoch: 2000 --- train loss: 15.60 --- Loss xl : 1.02 ---||--- validation loss: 15.60  --- Loss x low: 1.02 ---  loss x high: 0.89 (best so far) ---||--- time: 58 s

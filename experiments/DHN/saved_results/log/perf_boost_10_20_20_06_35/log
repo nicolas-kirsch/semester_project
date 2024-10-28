@@ -1,0 +1,13 @@
+2024-10-20 20:06:37,007 
+------------ Begin training ------------
+2024-10-20 20:06:37,127 Epoch: 0 --- TRAIN LOSS : 1.02 --- Loss xl : 0.00 ---||--- validation loss: 1.02  --- Loss x low: 0.00 ---  loss x high: 0.00 --- switches 0.00 (best so far) ---||--- time: 0 s
+2024-10-20 20:06:37,262 Epoch: 1 --- TRAIN LOSS : 1.02 --- Loss xl : 0.00 ---||--- validation loss: 1.02  --- Loss x low: 0.00 ---  loss x high: 0.00 --- switches 0.00 ---||--- time: 0 s
+2024-10-20 20:06:37,437 Epoch: 2 --- TRAIN LOSS : 1.02 --- Loss xl : 0.00 ---||--- validation loss: 1.02  --- Loss x low: 0.00 ---  loss x high: 0.00 --- switches 0.00 ---||--- time: 0 s
+2024-10-20 20:06:37,570 Epoch: 3 --- TRAIN LOSS : 1.02 --- Loss xl : 0.00 ---||--- validation loss: 1.02  --- Loss x low: 0.00 ---  loss x high: 0.00 --- switches 0.00 ---||--- time: 0 s
+2024-10-20 20:06:37,687 Epoch: 4 --- TRAIN LOSS : 1.02 --- Loss xl : 0.00 ---||--- validation loss: 1.02  --- Loss x low: 0.00 ---  loss x high: 0.00 --- switches 0.00 ---||--- time: 0 s
+2024-10-20 20:06:37,788 Epoch: 5 --- TRAIN LOSS : 1.02 --- Loss xl : 0.00 ---||--- validation loss: 1.02  --- Loss x low: 0.00 ---  loss x high: 0.00 --- switches 0.00 ---||--- time: 0 s
+2024-10-20 20:06:37,919 Epoch: 6 --- TRAIN LOSS : 1.02 --- Loss xl : 0.00 ---||--- validation loss: 1.02  --- Loss x low: 0.00 ---  loss x high: 0.00 --- switches 0.00 ---||--- time: 0 s
+2024-10-20 20:06:38,027 Epoch: 7 --- TRAIN LOSS : 1.02 --- Loss xl : 0.00 ---||--- validation loss: 1.02  --- Loss x low: 0.00 ---  loss x high: 0.00 --- switches 0.00 ---||--- time: 0 s
+2024-10-20 20:06:38,135 Epoch: 8 --- TRAIN LOSS : 1.02 --- Loss xl : 0.00 ---||--- validation loss: 1.02  --- Loss x low: 0.00 ---  loss x high: 0.00 --- switches 0.00 ---||--- time: 0 s
+2024-10-20 20:06:38,242 Epoch: 9 --- TRAIN LOSS : 1.02 --- Loss xl : 0.00 ---||--- validation loss: 1.02  --- Loss x low: 0.00 ---  loss x high: 0.00 --- switches 0.00 ---||--- time: 0 s
+2024-10-20 20:06:38,349 Epoch: 10 --- TRAIN LOSS : 1.02 --- Loss xl : 0.00 ---||--- validation loss: 1.02  --- Loss x low: 0.00 ---  loss x high: 0.00 --- switches 0.00 ---||--- time: 0 s

@@ -1,0 +1,13 @@
+2024-10-07 01:45:47,589 
+------------ Begin training ------------
+2024-10-07 01:45:47,714 Epoch: 0 --- train loss: 1272.74 --- Loss xl : 1266.34 ---||--- validation loss: 963.27  --- Loss x low: 955.47 ---  loss x high: 0.00 (best so far) ---||--- time: 0 s
+2024-10-07 01:45:53,334 Epoch: 50 --- train loss: 13.60 --- Loss xl : 0.29 ---||--- validation loss: 13.67  --- Loss x low: 0.22 ---  loss x high: 0.01 (best so far) ---||--- time: 6 s
+2024-10-07 01:45:59,701 Epoch: 100 --- train loss: 13.44 --- Loss xl : 0.14 ---||--- validation loss: 13.43  --- Loss x low: 0.14 ---  loss x high: 0.02 (best so far) ---||--- time: 6 s
+2024-10-07 01:46:06,980 Epoch: 150 --- train loss: 13.32 --- Loss xl : 0.11 ---||--- validation loss: 13.32  --- Loss x low: 0.10 ---  loss x high: 0.03 (best so far) ---||--- time: 7 s
+2024-10-07 01:46:13,618 Epoch: 200 --- train loss: 13.23 --- Loss xl : 0.07 ---||--- validation loss: 13.23  --- Loss x low: 0.07 ---  loss x high: 0.02 (best so far) ---||--- time: 7 s
+2024-10-07 01:46:20,783 Epoch: 250 --- train loss: 13.21 --- Loss xl : 0.07 ---||--- validation loss: 13.21  --- Loss x low: 0.06 ---  loss x high: 0.02 (best so far) ---||--- time: 7 s
+2024-10-07 01:46:27,515 Epoch: 300 --- train loss: 13.19 --- Loss xl : 0.06 ---||--- validation loss: 13.19  --- Loss x low: 0.06 ---  loss x high: 0.02 (best so far) ---||--- time: 7 s
+2024-10-07 01:46:34,093 Epoch: 350 --- train loss: 13.17 --- Loss xl : 0.06 ---||--- validation loss: 13.17  --- Loss x low: 0.05 ---  loss x high: 0.02 (best so far) ---||--- time: 7 s
+2024-10-07 01:46:40,580 Epoch: 400 --- train loss: 13.16 --- Loss xl : 0.06 ---||--- validation loss: 13.16  --- Loss x low: 0.05 ---  loss x high: 0.02 (best so far) ---||--- time: 6 s
+2024-10-07 01:46:47,659 Epoch: 450 --- train loss: 13.15 --- Loss xl : 0.05 ---||--- validation loss: 13.15  --- Loss x low: 0.05 ---  loss x high: 0.02 (best so far) ---||--- time: 7 s
+2024-10-07 01:46:54,749 Epoch: 500 --- train loss: 13.14 --- Loss xl : 0.05 ---||--- validation loss: 13.14  --- Loss x low: 0.06 ---  loss x high: 0.02 (best so far) ---||--- time: 7 s

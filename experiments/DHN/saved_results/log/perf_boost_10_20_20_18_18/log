@@ -1,0 +1,13 @@
+2024-10-20 20:18:19,187 
+------------ Begin training ------------
+2024-10-20 20:18:19,296 Epoch: 0 --- TRAIN LOSS : 0.52 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 0.52  --- Loss xl: 0.00 ---  Loss xh: 0.00 (best so far) ---||--- time: 0 s
+2024-10-20 20:18:19,408 Epoch: 1 --- TRAIN LOSS : 0.52 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 0.52  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 0 s
+2024-10-20 20:18:19,508 Epoch: 2 --- TRAIN LOSS : 0.52 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 0.52  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 0 s
+2024-10-20 20:18:19,662 Epoch: 3 --- TRAIN LOSS : 0.52 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 0.52  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 0 s
+2024-10-20 20:18:19,776 Epoch: 4 --- TRAIN LOSS : 0.52 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 0.52  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 0 s
+2024-10-20 20:18:19,886 Epoch: 5 --- TRAIN LOSS : 0.52 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 0.52  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 0 s
+2024-10-20 20:18:20,006 Epoch: 6 --- TRAIN LOSS : 0.52 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 0.52  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 0 s
+2024-10-20 20:18:20,126 Epoch: 7 --- TRAIN LOSS : 0.52 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 0.52  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 0 s
+2024-10-20 20:18:20,246 Epoch: 8 --- TRAIN LOSS : 0.52 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 0.52  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 0 s
+2024-10-20 20:18:20,366 Epoch: 9 --- TRAIN LOSS : 0.52 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 0.52  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 0 s
+2024-10-20 20:18:20,496 Epoch: 10 --- TRAIN LOSS : 0.52 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 0.52  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 0 s

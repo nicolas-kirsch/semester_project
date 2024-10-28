@@ -67,7 +67,7 @@ class DHNSystem(torch.nn.Module):
             next state without the noise.
         """
 
-        u_cont = F.linear(x,-self.K) + F.linear(u,Kr) 
+        u_cont = F.linear(x,-self.K) + F.linear(u,Kr)       # one is transient an other is SS
         
         
         return u_cont
@@ -92,8 +92,8 @@ class DHNSystem(torch.nn.Module):
         
         u_base = self.base_controller(x,xref,self.Kr) 
 
-        u_PB = F.linear(dxref,self.Kr)    
-
+        u_PB = F.linear(dxref,self.Kr)
+        u_PB = u_PB ##    
 
         u_cont = u_base + u_PB
 
@@ -140,6 +140,7 @@ class DHNSystem(torch.nn.Module):
         xs = (data[:, 0:1, :]/(self.mass*self.cp))
 
         dxref = controller.forward(xs[:, 0:1, :])
+        
         us = torch.full(dxref.shape,self.u_cont.item()).to(device)
 
         for t in range(1, data.shape[1]):
@@ -161,5 +162,7 @@ class DHNSystem(torch.nn.Module):
             )
             
         controller.reset()
+
+        dxref = dxref     ##
         
         return xs, us, dxref

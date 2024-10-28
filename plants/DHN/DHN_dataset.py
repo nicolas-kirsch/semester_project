@@ -46,41 +46,68 @@ class DHNDataset(CostumDataset):
 
 
     # ---- data generation ----
-    def _generate_data(self, num_samples):
+    def _generate_data(self, num_samples, mode):
     
         # generate data
         n_data_total = num_samples
         n_states = 1
         n_w = n_states
 
-        #Rescale demand to size
-        rescale = 0.2
-
-
         # Define the window size for the moving average
         window_size = 3
 
-        # Initial heat demand profile (baseline)
-        heat_demand =  [30,20, 25, 30, 35, 40, 50, 60, 70, 80, 100, 90, 80, 70, 60, 50, 60, 80, 100, 90, 80, 70, 50, 40]
-        # Compute the moving average
-        smoothed_heat_demand = -np.convolve(heat_demand, np.ones(window_size)/window_size, mode='same')
- 
-        #Initial temperature 
+        rescale = 0.2  # use this to keep same profile but change demand load / original 0.2
+        heat_demand =  [30,20, 25, 30, 35, 40, 50, 60, 70, 80, 100, 90, 80, 70, 60, 50, 60, 80, 100, 90, 80, 70, 50, 40]      # OG
+
+        # concatinated_heat_demand_48h = heat_demand + heat_demand #+ heat_demand
+        # heat_demand = concatinated_heat_demand_48h
+
+        train_noise = 3 ##
+        test_noise = 3
+
+        if mode == "train" :         ##
+            noise_gain = train_noise
+            pass
+        elif mode == "test": 
+            noise_gain = test_noise   
+            # rescale = 0.2   # use this to keep same profile but change demand load / original 0.2
+            # heat_demand = [100, 90, 80, 70, 60, 50, 30, 20, 25, 30, 35, 40, 50, 60, 70, 80, 60, 80, 90, 70, 50, 40, 100, 90]
+            # heat_demand = heat_demand
+            pass        # to have train and test with the same distribution
+
+        else:
+            raise NameError('Wrong data generation mode')
+
+        # Compute the moving average        ##
+        # smoothed_heat_demand = -np.convolve(heat_demand, np.ones(window_size)/window_size, mode='same')
+
+
+        ## flat demand
+        # flat_heat_demand =  [30, 20, 25, 30, 35, 40, 50, 60, 70, 80, 100, 90, 80, 70, 60, 50, 55, 55, 55, 55, 55, 55, 55, 55]
+        # flat_heat_demand += flat_heat_demand
+        flat_heat_demand =  [30, 20, 25, 30, 35, 40, 50, 60, 70, 80, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
+
+        pad_width = window_size // 2
+        flat_padded = np.pad(flat_heat_demand, pad_width, mode='edge')
+        smoothed_heat_demand = -np.convolve(flat_padded, np.ones(window_size) / window_size, mode='valid')
+        ##
+
+        #Initial temperature (randomized)
         data_x0 = ((self.xmin + (self.xmax-self.xmin)*torch.rand(n_data_total, n_states).to(device)))
 
-
-        #Generate consumption data 
+        #Generate consumption data (+ adding noise to it)
         d = torch.zeros(n_data_total,self.horizon,n_w)  
         for i in range(n_data_total):
-            d[i] = (torch.from_numpy(smoothed_heat_demand).reshape(self.horizon,n_w) + 3*torch.randn(self.horizon,n_w))*rescale
+            d[i] = (torch.from_numpy(smoothed_heat_demand).reshape(self.horizon,n_w) + noise_gain*torch.randn(self.horizon,n_w))*rescale ## was 3*
 
 
             d[i][0] = data_x0[i]*self.cp*self.mass
 
-            plt.plot(list(range(len(d[i]))),d[i].cpu())
-        plt.savefig("Toy_Data.png")  
+        #     plt.plot(list(range(len(d[i]))),d[i].cpu())
+        # plt.title(("heat demand"))
+
+        # plt.savefig("Toy_Data.png")  
         
         d
-
 
         return d

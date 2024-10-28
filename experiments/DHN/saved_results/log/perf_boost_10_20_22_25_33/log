@@ -1,0 +1,13 @@
+2024-10-20 22:25:34,159 
+------------ Begin training ------------
+2024-10-20 22:25:34,258 Epoch: 0 --- TRAIN LOSS : 1275.62 --- Loss xl : 1267.77, Loss xh : 0.21 ---||---  VALIDATION LOSS: 965.96  --- Loss xl: 956.91 ---  Loss xh: 0.21 (best so far) ---||--- time: 0 s
+2024-10-20 22:25:57,798 Epoch: 200 --- TRAIN LOSS : 16.60 --- Loss xl : 1.38, Loss xh : 1.29 ---||---  VALIDATION LOSS: 16.60  --- Loss xl: 1.38 ---  Loss xh: 1.29 (best so far) ---||--- time: 24 s
+2024-10-20 22:26:13,079 Epoch: 400 --- TRAIN LOSS : 16.12 --- Loss xl : 1.20, Loss xh : 1.10 ---||---  VALIDATION LOSS: 16.12  --- Loss xl: 1.20 ---  Loss xh: 1.10 (best so far) ---||--- time: 15 s
+2024-10-20 22:26:28,880 Epoch: 600 --- TRAIN LOSS : 15.98 --- Loss xl : 1.20, Loss xh : 1.10 ---||---  VALIDATION LOSS: 15.98  --- Loss xl: 1.20 ---  Loss xh: 1.10 (best so far) ---||--- time: 16 s
+2024-10-20 22:26:44,768 Epoch: 800 --- TRAIN LOSS : 15.86 --- Loss xl : 1.17, Loss xh : 1.08 ---||---  VALIDATION LOSS: 15.85  --- Loss xl: 1.17 ---  Loss xh: 1.08 (best so far) ---||--- time: 16 s
+2024-10-20 22:26:59,819 Epoch: 1000 --- TRAIN LOSS : 17.17 --- Loss xl : 1.56, Loss xh : 1.57 ---||---  VALIDATION LOSS: 17.16  --- Loss xl: 1.56 ---  Loss xh: 1.56 ---||--- time: 15 s
+2024-10-20 22:27:14,603 Epoch: 1200 --- TRAIN LOSS : 16.66 --- Loss xl : 1.36, Loss xh : 1.31 ---||---  VALIDATION LOSS: 16.66  --- Loss xl: 1.36 ---  Loss xh: 1.31 ---||--- time: 15 s
+2024-10-20 22:27:28,948 Epoch: 1400 --- TRAIN LOSS : 16.30 --- Loss xl : 1.21, Loss xh : 1.14 ---||---  VALIDATION LOSS: 16.30  --- Loss xl: 1.21 ---  Loss xh: 1.14 ---||--- time: 14 s
+2024-10-20 22:27:43,531 Epoch: 1600 --- TRAIN LOSS : 33.37 --- Loss xl : 7.37, Loss xh : 10.60 ---||---  VALIDATION LOSS: 33.65  --- Loss xl: 8.34 ---  Loss xh: 9.91 ---||--- time: 15 s
+2024-10-20 22:27:58,140 Epoch: 1800 --- TRAIN LOSS : 16.98 --- Loss xl : 1.32, Loss xh : 1.58 ---||---  VALIDATION LOSS: 16.97  --- Loss xl: 1.32 ---  Loss xh: 1.58 ---||--- time: 15 s
+2024-10-20 22:28:12,616 Epoch: 2000 --- TRAIN LOSS : 16.29 --- Loss xl : 1.17, Loss xh : 1.14 ---||---  VALIDATION LOSS: 16.29  --- Loss xl: 1.17 ---  Loss xh: 1.14 ---||--- time: 14 s

@@ -1,0 +1,13 @@
+2024-10-07 12:20:00,294 
+------------ Begin training ------------
+2024-10-07 12:20:00,440 Epoch: 0 --- TRAIN LOSS : 310.11 --- Loss xl : 0.00 ---||--- validation loss: 243.41  --- Loss x low: 22.35 ---  loss x high: 0.00 --- loss switching 1.47 (best so far) ---||--- time: 0 s
+2024-10-07 12:20:01,974 Epoch: 15 --- TRAIN LOSS : 310.08 --- Loss xl : 0.00 ---||--- validation loss: 304.08  --- Loss x low: 0.00 ---  loss x high: 0.00 --- loss switching 2.03 ---||--- time: 2 s
+2024-10-07 12:20:03,568 Epoch: 30 --- TRAIN LOSS : 248.13 --- Loss xl : 0.00 ---||--- validation loss: 228.13  --- Loss x low: 0.00 ---  loss x high: 0.00 --- loss switching 1.52 (best so far) ---||--- time: 2 s
+2024-10-07 12:20:05,942 Epoch: 45 --- TRAIN LOSS : 144.16 --- Loss xl : 0.00 ---||--- validation loss: 144.16  --- Loss x low: 0.00 ---  loss x high: 0.00 --- loss switching 0.96 (best so far) ---||--- time: 2 s
+2024-10-07 12:20:08,303 Epoch: 60 --- TRAIN LOSS : 178.13 --- Loss xl : 0.00 ---||--- validation loss: 174.13  --- Loss x low: 0.00 ---  loss x high: 0.00 --- loss switching 1.16 ---||--- time: 2 s
+2024-10-07 12:20:10,853 Epoch: 75 --- TRAIN LOSS : 196.11 --- Loss xl : 0.00 ---||--- validation loss: 192.11  --- Loss x low: 0.00 ---  loss x high: 0.00 --- loss switching 1.28 ---||--- time: 3 s
+2024-10-07 12:20:13,185 Epoch: 90 --- TRAIN LOSS : 214.09 --- Loss xl : 0.00 ---||--- validation loss: 208.09  --- Loss x low: 0.00 ---  loss x high: 0.00 --- loss switching 1.39 ---||--- time: 2 s
+2024-10-07 12:20:15,423 Epoch: 105 --- TRAIN LOSS : 224.08 --- Loss xl : 0.00 ---||--- validation loss: 228.08  --- Loss x low: 0.00 ---  loss x high: 0.00 --- loss switching 1.52 ---||--- time: 2 s
+2024-10-07 12:20:17,679 Epoch: 120 --- TRAIN LOSS : 258.07 --- Loss xl : 0.00 ---||--- validation loss: 262.07  --- Loss x low: 0.00 ---  loss x high: 0.00 --- loss switching 1.75 ---||--- time: 2 s
+2024-10-07 12:20:19,898 Epoch: 135 --- TRAIN LOSS : 262.07 --- Loss xl : 0.00 ---||--- validation loss: 262.07  --- Loss x low: 0.01 ---  loss x high: 0.00 --- loss switching 1.75 ---||--- time: 2 s
+2024-10-07 12:20:22,402 Epoch: 150 --- TRAIN LOSS : 216.09 --- Loss xl : 0.00 ---||--- validation loss: 218.09  --- Loss x low: 0.00 ---  loss x high: 0.00 --- loss switching 1.45 ---||--- time: 3 s
