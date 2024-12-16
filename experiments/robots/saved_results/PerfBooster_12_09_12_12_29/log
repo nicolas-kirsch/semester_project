@@ -1,0 +1,32 @@
+2024-12-09 12:12:29,662 ---------- SVGD ----------
+
+
+2024-12-09 12:12:29,662 None
+2024-12-09 12:12:29,855 [INFO] Controller is of type Perf Booster and has 921 parameters.
+2024-12-09 12:12:29,856 
+2024-12-09 12:12:29,857 [INFO] initialized particles with given value.
+2024-12-09 12:12:30,405 ------------ Begin training ------------
+2024-12-09 12:12:30,433 Iter 0/8000, Valid Loss: 0.9966
+2024-12-09 12:13:11,010 Epoch 400/8000 - Time 40.56 sec - SVGD Loss in epoch -2639.1482, Valid Loss: 0.0575 *** best valid loss ***
+2024-12-09 12:13:45,507 Epoch 800/8000 - Time 34.49 sec - SVGD Loss in epoch -2639.1633, Valid Loss: 0.0592
+2024-12-09 12:14:19,294 Epoch 1200/8000 - Time 33.80 sec - SVGD Loss in epoch -2639.1086, Valid Loss: 0.0575 *** best valid loss ***
+2024-12-09 12:14:51,558 Epoch 1600/8000 - Time 32.25 sec - SVGD Loss in epoch -2639.1045, Valid Loss: 0.0571 *** best valid loss ***
+2024-12-09 12:15:23,371 Epoch 2000/8000 - Time 31.83 sec - SVGD Loss in epoch -2639.0911, Valid Loss: 0.0571 *** best valid loss ***
+2024-12-09 12:15:55,716 Epoch 2400/8000 - Time 32.33 sec - SVGD Loss in epoch -2639.1892, Valid Loss: 0.0572
+2024-12-09 12:16:27,962 Epoch 2800/8000 - Time 32.24 sec - SVGD Loss in epoch -2639.1465, Valid Loss: 0.0574
+2024-12-09 12:17:00,532 Epoch 3200/8000 - Time 32.58 sec - SVGD Loss in epoch -2639.1187, Valid Loss: 0.0563 *** best valid loss ***
+2024-12-09 12:17:32,881 Epoch 3600/8000 - Time 32.34 sec - SVGD Loss in epoch -2639.1677, Valid Loss: 0.0570
+2024-12-09 12:18:06,261 Epoch 4000/8000 - Time 33.38 sec - SVGD Loss in epoch -2639.1216, Valid Loss: 0.0555 *** best valid loss ***
+2024-12-09 12:18:39,135 Epoch 4400/8000 - Time 32.87 sec - SVGD Loss in epoch -2639.1204, Valid Loss: 0.0570
+2024-12-09 12:19:10,448 Epoch 4800/8000 - Time 31.31 sec - SVGD Loss in epoch -2639.1064, Valid Loss: 0.0559
+2024-12-09 12:19:42,515 Epoch 5200/8000 - Time 32.07 sec - SVGD Loss in epoch -2639.0979, Valid Loss: 0.0569
+2024-12-09 12:20:15,180 Epoch 5600/8000 - Time 32.68 sec - SVGD Loss in epoch -2639.1135, Valid Loss: 0.0577
+2024-12-09 12:20:47,158 Epoch 6000/8000 - Time 31.98 sec - SVGD Loss in epoch -2639.1138, Valid Loss: 0.0572
+2024-12-09 12:21:19,372 Epoch 6400/8000 - Time 32.19 sec - SVGD Loss in epoch -2639.1062, Valid Loss: 0.0575
+2024-12-09 12:21:52,485 Epoch 6800/8000 - Time 33.12 sec - SVGD Loss in epoch -2639.1052, Valid Loss: 0.0575
+2024-12-09 12:22:25,542 Epoch 7200/8000 - Time 33.06 sec - SVGD Loss in epoch -2639.1035, Valid Loss: 0.0578
+2024-12-09 12:22:57,144 Epoch 7600/8000 - Time 31.60 sec - SVGD Loss in epoch -2639.1003, Valid Loss: 0.0577
+2024-12-09 12:23:28,408 Epoch 8000/8000 - Time 31.27 sec - SVGD Loss in epoch -2639.1028, Valid Loss: 0.0578
+2024-12-09 12:23:28,408 Training completed.
+2024-12-09 12:23:28,469 Final results on the entire train data: Bounded train loss = 0.0555, original train loss = 13.8904
+2024-12-09 12:23:28,537 True bounded test loss = 0.0550, true original test loss = 13.7718 (approximated using 1000 test rollouts).

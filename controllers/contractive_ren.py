@@ -1,8 +1,7 @@
-import torch, os, pickle
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from collections import OrderedDict
-from config import device, BASE_DIR
 
 
 class ContractiveREN(nn.Module):
@@ -29,8 +28,9 @@ class ContractiveREN(nn.Module):
 
     def __init__(
         self, dim_in: int, dim_out: int, dim_internal: int,
-        dim_nl: int, initial_by: float = -0.03, internal_state_init = None, initialization_std: float = 0.1,
-        posdef_tol: float = 0.001, contraction_rate_lb: float = 1.0
+        dim_nl: int, internal_state_init = None, initialization_std: float = 0.5,
+        posdef_tol: float = 0.001, contraction_rate_lb: float = 1.0,
+        train_method:str = 'SVGD',
     ):
         """
         Args:
@@ -42,6 +42,7 @@ class ContractiveREN(nn.Module):
             internal_state_init (torch.Tensor or None, optional): Initial condition for the internal state. Defaults to 0 when set to None.
             epsilon (float, optional): Positive and negligible scalar to force positive definite matrices.
             contraction_rate_lb (float, optional): Lower bound on the contraction rate. Defaults to 1.
+            train_method (str): Training method. Defaults to SVGD.
         """
         super().__init__()
 
@@ -50,20 +51,21 @@ class ContractiveREN(nn.Module):
         self.dim_out = dim_out
         self.dim_internal = dim_internal
         self.dim_nl = dim_nl
-        self.initial_by = initial_by
 
         # set functionalities
         self.contraction_rate_lb = contraction_rate_lb
+        self.train_method = train_method
+        assert self.train_method in ['empirical', 'normflow', 'SVGD']
 
         # auxiliary elements
         self.epsilon = posdef_tol
 
         # initialize internal state
         if internal_state_init is None:
-            self.x = torch.zeros(1, 1, self.dim_internal)
+            self.register_buffer('x', torch.zeros(1, 1, self.dim_internal))
         else:
             assert isinstance(internal_state_init, torch.Tensor)
-            self.x = internal_state_init.reshape(1, 1, self.dim_internal)
+            self.register_buffer('x', internal_state_init.reshape(1, 1, self.dim_internal))
         self.register_buffer('init_x', self.x.detach().clone())
 
         # define matrices shapes
@@ -79,17 +81,12 @@ class ContractiveREN(nn.Module):
         # v signal
         self.D12_shape = (self.dim_nl, self.dim_in)
 
-
-        #Biases
-        self.b_xi_shape = (1,self.dim_internal)
-        self.b_v_shape = (1,self.dim_nl)
-        self.b_y_shape = (1,1)
-
-
         # define trainble params
-        self.training_param_names = ['X', 'Y', 'B2', 'C2', 'D21', 'D12','D22','b_y','b_v','b_xi']
-        self._init_trainable_params(initialization_std)
-    
+        self.initialization_std = initialization_std
+        self.training_param_names = ['X', 'Y', 'B2', 'C2', 'D21', 'D22', 'D12']
+        self._init_trainable_params(self.initialization_std)
+        # set number of trainable params
+        self.num_params = sum([getattr(self, p_name).nelement() for p_name in self.training_param_names])
 
         # mask
         self.register_buffer('eye_mask_H', torch.eye(2 * self.dim_internal + self.dim_nl))
@@ -100,11 +97,11 @@ class ContractiveREN(nn.Module):
         Update non-trainable matrices according to the REN formulation to preserve contraction.
         """
         # dependent params
-        H = torch.matmul(self.X.T, self.X) + self.epsilon * self.eye_mask_H
-        h1, h2, h3 = torch.split(H, [self.dim_internal, self.dim_nl, self.dim_internal], dim=0)
-        H11, H12, H13 = torch.split(h1, [self.dim_internal, self.dim_nl, self.dim_internal], dim=1)
-        H21, H22, _ = torch.split(h2, [self.dim_internal, self.dim_nl, self.dim_internal], dim=1)
-        H31, H32, H33 = torch.split(h3, [self.dim_internal, self.dim_nl, self.dim_internal], dim=1)
+        H = torch.matmul(self.X.transpose(-1, -2), self.X) + self.epsilon * self.eye_mask_H
+        h1, h2, h3 = torch.split(H, [self.dim_internal, self.dim_nl, self.dim_internal], dim=-2)    # row split
+        H11, H12, H13 = torch.split(h1, [self.dim_internal, self.dim_nl, self.dim_internal], dim=-1)# col split
+        H21, H22, _ = torch.split(h2, [self.dim_internal, self.dim_nl, self.dim_internal], dim=-1)  # col split
+        H31, H32, H33 = torch.split(h3, [self.dim_internal, self.dim_nl, self.dim_internal], dim=-1)# col split
         P = H33
 
         # nn state dynamics
@@ -112,13 +109,12 @@ class ContractiveREN(nn.Module):
         self.B1 = H32
 
         # nn output
-        self.E = 0.5 * (H11 + self.contraction_rate_lb * P + self.Y - self.Y.T)
+        self.E = 0.5 * (H11 + self.contraction_rate_lb * P + self.Y - self.Y.transpose(-1, -2))
 
         # v signal for strictly acyclic REN
-        self.Lambda = 0.5 * torch.diag(H22)
+        self.Lambda = 0.5 * torch.diagonal(H22,  dim1=-2, dim2=-1)
         self.D11 = -torch.tril(H22, diagonal=-1)
         self.C1 = -H21
-
 
     def forward(self, u_in):
         """
@@ -133,69 +129,57 @@ class ContractiveREN(nn.Module):
         # update non-trainable model params
         self._update_model_param()
 
-        batch_size = u_in.shape[0]
+        batch_size = u_in.shape[:-2]
 
-        w = torch.zeros(batch_size, 1, self.dim_nl, device=u_in.device)
+        w = torch.zeros(*batch_size, 1, self.dim_nl, device=u_in.device)
 
         # update each row of w using Eq. (8) with a lower triangular D11
         for i in range(self.dim_nl):
             #  v is element i of v with dim (batch_size, 1)
-            v = F.linear(self.x, self.C1[i, :]) + F.linear(w, self.D11[i, :]) + F.linear(u_in, self.D12[i,:]) + self.b_v[:,i]
-            w = w + (self.eye_mask_w[i, :] * torch.tanh(v / self.Lambda[i])).reshape(batch_size, 1, self.dim_nl)
+            C1row = self.C1[i:i+1, :] if self.C1.ndim==2 else self.C1[:, i:i+1, :]
+            D11row = self.D11[i:i+1, :] if self.D11.ndim==2 else self.D11[:, i:i+1, :]
+            D12row = self.D12[i:i+1, :] if self.D12.ndim==2 else self.D12[:, i:i+1, :]
+            xC1T = torch.matmul(self.x, C1row.transpose(-1,-2))
+            wD11T = torch.matmul(w, D11row.transpose(-1,-2))
+            uD12T = torch.matmul(u_in, D12row.transpose(-1,-2))
+            v = xC1T + wD11T + uD12T
+            w = w + (self.eye_mask_w[i, :] * torch.tanh(v / self.Lambda[i])).reshape(*batch_size, 1, self.dim_nl)
 
         # compute next state using Eq. 18
-        self.x = F.linear(
-            F.linear(self.x, self.F) + F.linear(w, self.B1) + F.linear(u_in, self.B2) + self.b_xi,
-            self.E.inverse()) 
-
+        xFT = torch.matmul(self.x, self.F.transpose(-1, -2))
+        wB1T = torch.matmul(w, self.B1.transpose(-1, -2))
+        uB2T = torch.matmul(u_in, self.B2.transpose(-1, -2))
+        self.x = torch.matmul(xFT + wB1T + uB2T, self.E.inverse().transpose(-1, -2))
 
         # compute output
-        y_out = F.linear(self.x, self.C2) + F.linear(w, self.D21) + F.linear(u_in, self.D22) + self.b_y
-
+        xC2T = torch.matmul(self.x, self.C2.transpose(-1, -2))
+        wD21T = torch.matmul(w, self.D21.transpose(-1, -2))
+        uD22T = torch.matmul(u_in, self.D22.transpose(-1, -2))
+        y_out = xC2T + wD21T + uD22T
         return y_out
 
     # init trainable params
     def _init_trainable_params(self, initialization_std):
         for training_param_name in self.training_param_names:  # name of one of the training params, e.g., X
             # read the defined shapes of the selected training param, e.g., X_shape
-
             shape = getattr(self, training_param_name + '_shape')
-
-            if "b_" in training_param_name:
-                setattr(self, training_param_name, nn.Parameter((torch.randn(*shape) * initialization_std)))
-            else: 
-            # define the selected param (e.g., self.X) as nn.Parameter
-                setattr(self, training_param_name, nn.Parameter((torch.randn(*shape) * initialization_std)))
-
-
-
-    # init trainable params
-    def _load_trainable_params(self, initialization_std):
-        file_path = os.path.join(BASE_DIR, 'experiments', 'DHN', 'saved_results')
-        file_name = os.path.join(file_path, 'params')
-        filehandler = open(file_name, 'rb')
-        params = pickle.load(filehandler)
-        filehandler.close()
-        params["b_y"][0,0] = self.initial_by
-        print(params["b_y"])
-        #params["b_y"] = torch.tensor([params["b_y"],2]).reshape(1,2)
-
-        for training_param_name in self.training_param_names:  # name of one of the training params, e.g., X
-            # read the defined shapes of the selected training param, e.g., X_shape
-
-            setattr(self, training_param_name, nn.Parameter(params[training_param_name]))
-
-            
-
-
-
-
+            # define the selected param (e.g., self.X)
+            param_val = torch.randn(*shape) * initialization_std
+            if self.train_method=='empirical':
+                # register as parameter
+                setattr(self, training_param_name, nn.Parameter(param_val))
+            else:
+                # register as buffer
+                self.register_buffer(training_param_name, param_val)
 
     # setters and getters
     def get_parameter_shapes(self):
         param_dict = OrderedDict(
-            (name, getattr(self, name).shape) for name in self.training_param_names
+            (name, getattr(self, name+'_shape')) for name in self.training_param_names
         )
+        # param_dict = OrderedDict(
+        #     (name, getattr(self, name).shape) for name in self.training_param_names
+        # )
         return param_dict
 
     def get_named_parameters(self):
@@ -203,3 +187,74 @@ class ContractiveREN(nn.Module):
             (name, getattr(self, name)) for name in self.training_param_names
         )
         return param_dict
+
+    def get_parameters_as_vector(self):
+        vec = None
+        for name in self.training_param_names:
+            if vec is None:
+                vec = getattr(self, name).flatten()
+            else:
+                vec = torch.cat((vec, getattr(self, name).flatten()), 0)
+        return vec
+
+    def reset(self):
+        self.x = self.init_x.detach().clone()
+
+    def hard_reset(self):
+        # NOTE: detaches the parameters from optimizer. use only during testing
+        # solves the problem that could always sample the same number of controllers from normflow
+        self.reset()
+        old_device = self.X.device
+        self._init_trainable_params(self.initialization_std)
+        self = self.to(old_device)
+
+    def list_parameters(self):      ## I added it
+        """
+        Lists all parameters of the REN class, including their names, shapes,
+        and whether they are registered as trainable parameters or buffers.
+        """
+        param_info = []
+        # Include parameters
+        for name, param in self.named_parameters():
+            param_info.append({
+                'name': name,
+                'shape': list(param.shape),
+                'trainable': True
+            })
+
+        # Include buffers (registered tensors that are not trainable)
+        for name, buffer in self.named_buffers():
+            if name in self.training_param_names:
+                param_info.append({
+                    'name': name,
+                    'shape': list(buffer.shape),
+                    'trainable': False
+                })
+
+        return param_info
+    
+    # def list_parameters(self):
+    #     """
+    #     Lists all parameters of the REN class, including their names, shapes,
+    #     and whether they are registered as trainable parameters or buffers.
+    #     Works for both old and new ContractiveREN classes.
+    #     """
+    #     param_info = []
+        
+    #     # Include parameters (trainable)
+    #     for name, param in self.named_parameters():
+    #         param_info.append({
+    #             'name': name,
+    #             'shape': list(param.shape),
+    #             'trainable': True
+    #         })
+
+    #     # Include buffers (non-trainable constants)
+    #     for name, buffer in self.named_buffers():
+    #         param_info.append({
+    #             'name': name,
+    #             'shape': list(buffer.shape),
+    #             'trainable': False
+    #         })
+
+    #     return param_info

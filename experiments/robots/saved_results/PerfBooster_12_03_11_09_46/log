@@ -1,0 +1,62 @@
+2024-12-03 11:09:46,426 ---------- SVGD ----------
+
+
+2024-12-03 11:09:46,426 None
+2024-12-03 11:09:46,593 [INFO] Controller is of type Perf Booster and has 921 parameters.
+2024-12-03 11:09:46,609 
+2024-12-03 11:09:46,611 [INFO] initialized particles with given value.
+2024-12-03 11:09:47,169 ------------ Begin training ------------
+2024-12-03 11:09:47,208 Iter 0/3000, Valid Loss: 0.9963
+2024-12-03 11:09:53,433 Epoch 60/3000 - Time 6.13 sec - SVGD Loss in epoch -2638.6323, Valid Loss: 0.0545
+2024-12-03 11:10:04,470 Epoch 120/3000 - Time 11.05 sec - SVGD Loss in epoch -2638.6138, Valid Loss: 0.0554
+2024-12-03 11:10:13,885 Epoch 180/3000 - Time 9.43 sec - SVGD Loss in epoch -2638.5972, Valid Loss: 0.0548
+2024-12-03 11:10:24,106 Epoch 240/3000 - Time 10.20 sec - SVGD Loss in epoch -2638.5935, Valid Loss: 0.0572
+2024-12-03 11:10:32,801 Epoch 300/3000 - Time 8.74 sec - SVGD Loss in epoch -2638.5876, Valid Loss: 0.0548
+2024-12-03 11:10:37,657 Epoch 360/3000 - Time 4.85 sec - SVGD Loss in epoch -2638.5862, Valid Loss: 0.0551
+2024-12-03 11:10:42,430 Epoch 420/3000 - Time 4.78 sec - SVGD Loss in epoch -2638.5857, Valid Loss: 0.0547
+2024-12-03 11:10:47,227 Epoch 480/3000 - Time 4.78 sec - SVGD Loss in epoch -2638.5967, Valid Loss: 0.0552
+2024-12-03 11:10:52,037 Epoch 540/3000 - Time 4.82 sec - SVGD Loss in epoch -2638.5957, Valid Loss: 0.0547
+2024-12-03 11:10:56,774 Epoch 600/3000 - Time 4.73 sec - SVGD Loss in epoch -2638.5928, Valid Loss: 0.0547
+2024-12-03 11:11:01,638 Epoch 660/3000 - Time 4.87 sec - SVGD Loss in epoch -2638.5908, Valid Loss: 0.0546
+2024-12-03 11:11:06,704 Epoch 720/3000 - Time 5.06 sec - SVGD Loss in epoch -2638.5898, Valid Loss: 0.0547
+2024-12-03 11:11:11,428 Epoch 780/3000 - Time 4.74 sec - SVGD Loss in epoch -2638.5884, Valid Loss: 0.0547
+2024-12-03 11:11:16,365 Epoch 840/3000 - Time 4.93 sec - SVGD Loss in epoch -2638.5876, Valid Loss: 0.0547
+2024-12-03 11:11:21,302 Epoch 900/3000 - Time 4.96 sec - SVGD Loss in epoch -2638.5869, Valid Loss: 0.0547
+2024-12-03 11:11:26,372 Epoch 960/3000 - Time 5.04 sec - SVGD Loss in epoch -2638.5859, Valid Loss: 0.0547
+2024-12-03 11:11:31,425 Epoch 1020/3000 - Time 5.07 sec - SVGD Loss in epoch -2638.5854, Valid Loss: 0.0547
+2024-12-03 11:11:37,162 Epoch 1080/3000 - Time 5.74 sec - SVGD Loss in epoch -2638.5854, Valid Loss: 0.0546
+2024-12-03 11:11:42,399 Epoch 1140/3000 - Time 5.24 sec - SVGD Loss in epoch -2638.5850, Valid Loss: 0.0546
+2024-12-03 11:11:47,430 Epoch 1200/3000 - Time 5.04 sec - SVGD Loss in epoch -2638.5842, Valid Loss: 0.0547
+2024-12-03 11:11:52,455 Epoch 1260/3000 - Time 5.02 sec - SVGD Loss in epoch -2638.5837, Valid Loss: 0.0548
+2024-12-03 11:11:57,337 Epoch 1320/3000 - Time 4.88 sec - SVGD Loss in epoch -2638.5837, Valid Loss: 0.0549
+2024-12-03 11:12:02,333 Epoch 1380/3000 - Time 4.99 sec - SVGD Loss in epoch -2638.5833, Valid Loss: 0.0546
+2024-12-03 11:12:07,242 Epoch 1440/3000 - Time 4.93 sec - SVGD Loss in epoch -2638.5830, Valid Loss: 0.0546
+2024-12-03 11:12:12,252 Epoch 1500/3000 - Time 4.99 sec - SVGD Loss in epoch -2638.5830, Valid Loss: 0.0547
+2024-12-03 11:12:17,198 Epoch 1560/3000 - Time 4.96 sec - SVGD Loss in epoch -2638.5830, Valid Loss: 0.0546
+2024-12-03 11:12:22,152 Epoch 1620/3000 - Time 4.94 sec - SVGD Loss in epoch -2638.5828, Valid Loss: 0.0547
+2024-12-03 11:12:27,340 Epoch 1680/3000 - Time 5.18 sec - SVGD Loss in epoch -2638.5828, Valid Loss: 0.0548
+2024-12-03 11:12:32,326 Epoch 1740/3000 - Time 5.00 sec - SVGD Loss in epoch -2638.5830, Valid Loss: 0.0552
+2024-12-03 11:12:37,227 Epoch 1800/3000 - Time 4.90 sec - SVGD Loss in epoch -2638.5859, Valid Loss: 0.0563
+2024-12-03 11:12:42,216 Epoch 1860/3000 - Time 4.97 sec - SVGD Loss in epoch -2638.5850, Valid Loss: 0.0554
+2024-12-03 11:12:47,171 Epoch 1920/3000 - Time 4.97 sec - SVGD Loss in epoch -2638.5845, Valid Loss: 0.0553
+2024-12-03 11:12:52,004 Epoch 1980/3000 - Time 4.83 sec - SVGD Loss in epoch -2638.5840, Valid Loss: 0.0549
+2024-12-03 11:12:56,974 Epoch 2040/3000 - Time 4.98 sec - SVGD Loss in epoch -2638.5837, Valid Loss: 0.0547
+2024-12-03 11:13:02,711 Epoch 2100/3000 - Time 5.73 sec - SVGD Loss in epoch -2638.5828, Valid Loss: 0.0547
+2024-12-03 11:13:07,661 Epoch 2160/3000 - Time 4.95 sec - SVGD Loss in epoch -2638.5828, Valid Loss: 0.0547
+2024-12-03 11:13:12,664 Epoch 2220/3000 - Time 4.99 sec - SVGD Loss in epoch -2638.5828, Valid Loss: 0.0547
+2024-12-03 11:13:17,617 Epoch 2280/3000 - Time 4.96 sec - SVGD Loss in epoch -2638.5825, Valid Loss: 0.0547
+2024-12-03 11:13:22,685 Epoch 2340/3000 - Time 5.07 sec - SVGD Loss in epoch -2638.5825, Valid Loss: 0.0546
+2024-12-03 11:13:28,244 Epoch 2400/3000 - Time 5.56 sec - SVGD Loss in epoch -2638.5825, Valid Loss: 0.0547
+2024-12-03 11:13:33,774 Epoch 2460/3000 - Time 5.52 sec - SVGD Loss in epoch -2639.3079, Valid Loss: 1.0000
+2024-12-03 11:13:43,459 Epoch 2520/3000 - Time 9.65 sec - SVGD Loss in epoch -2639.3018, Valid Loss: 1.0000
+2024-12-03 11:13:53,552 Epoch 2580/3000 - Time 10.12 sec - SVGD Loss in epoch -2639.2976, Valid Loss: 1.0000
+2024-12-03 11:14:03,549 Epoch 2640/3000 - Time 9.98 sec - SVGD Loss in epoch -2639.2935, Valid Loss: 1.0000
+2024-12-03 11:14:14,008 Epoch 2700/3000 - Time 10.44 sec - SVGD Loss in epoch -2639.2905, Valid Loss: 1.0000
+2024-12-03 11:14:24,274 Epoch 2760/3000 - Time 10.27 sec - SVGD Loss in epoch -2639.2881, Valid Loss: 1.0000
+2024-12-03 11:14:32,103 Epoch 2820/3000 - Time 7.86 sec - SVGD Loss in epoch -2639.2864, Valid Loss: 1.0000
+2024-12-03 11:14:37,211 Epoch 2880/3000 - Time 5.10 sec - SVGD Loss in epoch -2639.2847, Valid Loss: 1.0000
+2024-12-03 11:14:42,489 Epoch 2940/3000 - Time 5.30 sec - SVGD Loss in epoch -2639.2859, Valid Loss: 1.0000
+2024-12-03 11:14:48,209 Epoch 3000/3000 - Time 5.71 sec - SVGD Loss in epoch -2639.2856, Valid Loss: 1.0000
+2024-12-03 11:14:48,209 Training completed.
+2024-12-03 11:14:48,258 Final results on the entire train data: Bounded train loss = 0.0545, original train loss = 13.6408
+2024-12-03 11:14:48,342 True bounded test loss = 0.0552, true original test loss = 13.83 (approximated using 1000 test rollouts).

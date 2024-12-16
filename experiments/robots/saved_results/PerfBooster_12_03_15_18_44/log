@@ -1,0 +1,20 @@
+2024-12-03 15:18:44,899 ---------- SVGD ----------
+
+
+2024-12-03 15:18:44,899 None
+2024-12-03 15:18:45,274 [INFO] Controller is of type Perf Booster and has 921 parameters.
+2024-12-03 15:18:45,274 gibbs_lambda: 52.57 (use lambda_*)
+2024-12-03 15:18:45,274 [INFO] initialized particles with given value.
+2024-12-03 15:18:46,214 ------------ Begin training ------------
+2024-12-03 15:18:46,448 Iter 0/1500, Valid Loss: 0.8086
+2024-12-03 15:19:04,733 Epoch 30/1500 - Time 18.03 sec - SVGD Loss in epoch -13210.0918, Valid Loss: 0.0626
+2024-12-03 15:19:23,199 Epoch 60/1500 - Time 18.47 sec - SVGD Loss in epoch -13208.1816, Valid Loss: 0.0553
+2024-12-03 15:19:47,699 Epoch 90/1500 - Time 24.58 sec - SVGD Loss in epoch -13208.0898, Valid Loss: 0.0546
+2024-12-03 15:20:06,716 Epoch 120/1500 - Time 18.91 sec - SVGD Loss in epoch -13208.1279, Valid Loss: 0.0543
+2024-12-03 15:20:25,432 Epoch 150/1500 - Time 18.73 sec - SVGD Loss in epoch -13208.2041, Valid Loss: 0.0544
+2024-12-03 15:20:43,809 Epoch 180/1500 - Time 18.42 sec - SVGD Loss in epoch -13208.2812, Valid Loss: 0.0550
+2024-12-03 15:21:02,098 Epoch 210/1500 - Time 18.27 sec - SVGD Loss in epoch -13208.9062, Valid Loss: 0.0564
+2024-12-03 15:21:20,359 Epoch 240/1500 - Time 18.32 sec - SVGD Loss in epoch -13208.7520, Valid Loss: 0.0554
+2024-12-03 15:21:38,533 Epoch 270/1500 - Time 18.16 sec - SVGD Loss in epoch -13208.8193, Valid Loss: 0.0546
+2024-12-03 15:21:56,831 Epoch 300/1500 - Time 18.27 sec - SVGD Loss in epoch -13208.9648, Valid Loss: 0.0558
+2024-12-03 15:22:15,186 Epoch 330/1500 - Time 18.28 sec - SVGD Loss in epoch -13209.6328, Valid Loss: 0.0580

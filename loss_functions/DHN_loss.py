@@ -16,7 +16,8 @@ from assistive_functions import to_tensor
 class DHNLoss():
     def __init__(
         self, R, u_min, u_max, x_min,x_max,peak = False, renewable_fossil_peak = False,
-        alpha_xl=None, alpha_xh=None
+        alpha_xl=None, alpha_xh=None,
+        loss_bound=None, sat_bound=None,
     ):
         
         self.peak = peak
@@ -25,6 +26,9 @@ class DHNLoss():
         self.umax = to_tensor(u_max).to(device)
         self.xmin = to_tensor(x_min).to(device)
         self.xmax = to_tensor(x_max).to(device)
+
+        self.loss_bound = loss_bound
+        self.sat_bound = sat_bound
 
         self.alpha_xl = alpha_xl
         self.alpha_xh = alpha_xh
@@ -41,11 +45,11 @@ class DHNLoss():
         #Create tariff over time vector
         high = [3]*12
         low = [1]*12
-        self.tariff = torch.tensor(high+low).to(device)
+        self.tariff = torch.tensor(high+low).to(device) # not used
 
 
 
-    def forward(self, xs, us,dxref):
+    def forward(self, xs, us):      ## removed dxref
         """
         Compute loss.
 
@@ -60,7 +64,7 @@ class DHNLoss():
         # batch
         x_batch = xs.reshape(*xs.shape,1)
         u_batch = us.reshape(*us.shape, 1)
-        dxref = dxref.reshape(*dxref.shape, 1)
+        # dxref = dxref.reshape(*dxref.shape, 1)
 
         # loss states = 1/T sum_{t=1}^T (x_t-xbar)^T Q (x_t-xbar)
         
@@ -139,14 +143,17 @@ class DHNLoss():
 
         # sum up all losses
         loss_val = loss_u + loss_xh + loss_xl           # + switch_loss          # shape = (S, 1, 1)
+
+        # bound
+        if self.sat_bound is not None:
+            loss_val = torch.tanh(loss_val/self.sat_bound)  # shape = (*batch_dim, 1, 1)
+        if self.loss_bound is not None:
+            loss_val = self.loss_bound * loss_val           # shape = ((*batch_dim, 1, 1
         
         loss_val = torch.sum(loss_val, 0)/xs.shape[0]       # shape = (1, 1)
-
-        loss_val = loss_val
-
+        
         return loss_val
-
-
+    
     def f_switching(self, u):
         
         pass

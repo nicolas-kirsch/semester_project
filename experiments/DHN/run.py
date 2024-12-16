@@ -12,7 +12,7 @@ sys.path.insert(1, BASE_DIR)
 
 
 from config import device
-from controllers import PerfBoostController
+from controllers import old_PerfBoostController as PerfBoostController
 from arg_parser import argument_parser
 from plants import DHNDataset, DHNSystem
 from assistive_functions import WrapLogger
@@ -74,7 +74,9 @@ dataset = DHNDataset(
 )
 
 # divide to train and test
-train_data, test_data = dataset.get_data(num_train_samples=args.num_rollouts, num_test_samples=20)
+train_data, test_data = dataset.get_data(num_train_samples=args.num_rollouts, num_test_samples=1000)      ## was 20
+_ , test_data_plot = dataset.get_data(num_train_samples=args.num_rollouts, num_test_samples=30)         # have a smaller testing dataset for plotting
+
 train_data, test_data = train_data.to(device), test_data.to(device)
 
 max_train = torch.max(train_data)
@@ -99,6 +101,11 @@ ctl = PerfBoostController(
     initialization_std=args.cont_init_std,
     output_amplification=20,
 ).to(device)
+
+print(" **** shape of total parameters: ",ctl.get_parameters_as_vector().shape)
+
+initial_parameters = ctl.get_parameters_as_vector_reduced().unsqueeze(dim=0)
+print("Relevant initial parameters: ", initial_parameters[0, 0:50])
 
 # ------------ 4. Loss ------------
 #Size of the minimization 
@@ -126,7 +133,7 @@ for epoch in range(1+args.epochs):
         x_log, u_log, dxref = sys.rollout(controller=ctl, data=train_data_batch)
 
         # loss of this rollout
-        loss = loss_fn.forward(x_log, u_log, dxref)
+        loss = loss_fn.forward(x_log, u_log)
 
         loss.backward()
         optimizer.step()
@@ -149,7 +156,7 @@ for epoch in range(1+args.epochs):
                     u_log_test = u_log_valid.cpu()
 
                 # loss of the valid data
-                loss_valid = loss_fn.forward(x_log_valid, u_log_valid,dxref_valid)
+                loss_valid = loss_fn.forward(x_log_valid, u_log_valid)
 
             msg += ' ---||---  VALIDATION LOSS: %.2f  --- Loss xl: %.2f ---  Loss xh: %.2f' % (
                 loss_valid,loss_fn.l_xl.item(),loss_fn.l_xh.item())
@@ -174,8 +181,12 @@ with torch.no_grad():
     x_log_test, u_log_test, dxref_test = sys.rollout(
         controller=ctl, data=test_data
     )
-    test_loss = loss_fn.forward(x_log_test, u_log_test, u_log_test)[0][0].item()
+    test_loss = loss_fn.forward(x_log_test, u_log_test)[0][0].item()
     print(f"\n TEST loss: {test_loss:.2f}")  ##
+
+    x_log_test_plot, u_log_test_plot, dxref_test_plot = sys.rollout(
+        controller=ctl, data=test_data_plot
+    )
 
 x_log_test = x_log_test.cpu()
 u_log_test = u_log_test.cpu()
@@ -211,8 +222,7 @@ dxref_test = dxref_test.cpu()
 
 # plt.show()
 
-plot_mode = "two"       # one if only plot train, two for testing and training datasets
-#### combined plots version 1
+plot_mode = "new"       # one if only plot train, two for testing and training datasets. "two_v2 is a failed attempt at plotting CI"
 
 if plot_mode == "one":
 
@@ -262,10 +272,53 @@ if plot_mode == "one":
     plt.tight_layout()
     plt.subplots_adjust(top=0.9)  # Adjust the top space to make room for the suptitle
 
-    plt.suptitle(f'System evolution with gamma = {gamma}, Tref = {T_ref[0].item():.0f}, no load, no PB control', fontsize=17)
+    # plt.suptitle(f'System evolution with gamma = {gamma}, Tref = {T_ref[0].item():.0f}, no load, no PB control', fontsize=17)
+    plt.suptitle(f'System evolution with heat load, base controller (Tref = {T_ref[0].item():.0f})', fontsize=17)
+
+    plt.savefig(f'System evol, base controller, with demand .png')
 
     # plt.savefig("testing_no_load_no_PB.png")
     plt.show()
+
+if plot_mode =="one_v2":        # only x and 
+    # Create a figure with a 2x2 grid of subplots
+    fig, axs = plt.subplots(2, 1, figsize=(13, 9))
+
+    # Plot 1: X profile over the horizon
+    for i in range(test_data.shape[0]): 
+        axs[0].plot(range(test_data.shape[1]), x_log_test[i] + T_ext.cpu())
+        axs[0].plot(range(test_data.shape[1]), [T_min.cpu()] * test_data.shape[1], "--", c="grey")
+        axs[0].plot(range(test_data.shape[1]), [T_max.cpu()] * test_data.shape[1], "--", c="grey")
+    axs[0].set_title("X profile over the horizon")
+    axs[0].set_xlabel("Time (h)")
+    axs[0].set_ylabel("Temperature (°C)")
+    axs[0].grid()
+    axs[0].axvline(x = 24,  color = 'r', linestyle='dashed')
+
+
+    # Plot 4: Test data profile
+    for i in range(test_data.shape[0]):
+        axs[1].plot(range(test_data.shape[1]), test_data[i])
+        # axs[1, 0].plot(range(test_data.shape[1]), -test_data[i])
+
+    axs[1].axvline(x = 24,  color = 'r', linestyle='dashed')
+    axs[1].set_title("Test Data profile over the horizon")
+    axs[1].set_xlabel("Time (h)")
+    axs[1].set_ylabel("Value")
+    axs[1].grid()
+    # Adjust layout to prevent overlap
+    plt.tight_layout()
+    plt.subplots_adjust(top=0.9)  # Adjust the top space to make room for the suptitle
+
+    # plt.suptitle(f'System evolution with gamma = {gamma}, Tref = {T_ref[0].item():.0f}, no load, no PB control', fontsize=17)
+    plt.suptitle(f'System evolution with flat-ended heat demand 48h', fontsize=17)
+
+    plt.savefig(f'System evol flat-ended heat demandm 48.png')
+
+    # plt.savefig("testing_no_load_no_PB.png")
+    plt.show()
+
+
 
 ###### combined plots version 2 train and test
 if plot_mode == "two":
@@ -275,9 +328,9 @@ if plot_mode == "two":
     fig, axs = plt.subplots(2, 2, figsize=(13, 9))
 
     # Colormaps for train and test data
-    train_color = "blue"
+    train_color = "black"
     test_color = "red"
-    alpha_value = 0.3  # Transparency for overlapping effect
+    alpha_value = 0.9  # Transparency for overlapping effect # was 0.3
 
     # Normalize functions for color scaling independent within each subplot
     norm_test = Normalize(vmin=0, vmax=test_data.shape[0] - 1)
@@ -285,11 +338,11 @@ if plot_mode == "two":
 
     # Plot 1: X profile over the horizon
     for i in range(test_data.shape[0]):
-        axs[0, 0].plot(range(test_data.shape[1]), x_log_test[i] + T_ext.cpu(), color=test_color, alpha=alpha_value, label=f"Test {i}")
+        axs[0, 0].plot(range(test_data.shape[1]), x_log_test[i] + T_ext.cpu(), alpha=alpha_value, label=f"Test {i}")
         axs[0, 0].plot(range(test_data.shape[1]), [T_min.cpu()] * test_data.shape[1], "--", c="grey")
         axs[0, 0].plot(range(test_data.shape[1]), [T_max.cpu()] * test_data.shape[1], "--", c="grey")
     for i in range(x_log_valid_best.shape[0]):
-        axs[0, 0].plot(range(x_log_valid_best.shape[1]), x_log_valid_best[i] + T_ext.cpu(), color=train_color, alpha=0.3, label=f"Train {i}")
+        axs[0, 0].plot(range(x_log_valid_best.shape[1]), x_log_valid_best[i] + T_ext.cpu(), color = train_color, alpha=alpha_value, label=f"Train {i}")
     axs[0, 0].set_title("X profile over the horizon")
     axs[0, 0].set_xlabel("Time (h)")
     axs[0, 0].set_ylabel("Temperature (°C)")
@@ -299,7 +352,7 @@ if plot_mode == "two":
 
     # Plot 2: DXref profile over the horizon
     for i in range( dxref_test.shape[0]):  # Loop over test data rows
-        axs[0, 1].plot(range(test_data.shape[1]), dxref_test[i], color=test_color, alpha=alpha_value, label=f"Test {i}")
+        axs[0, 1].plot(range(test_data.shape[1]), dxref_test[i], alpha=alpha_value, label=f"Test {i}")
     for i in range(dxref_valid_best.shape[0]):  # Loop over train data rows
         axs[0, 1].plot(range(dxref_valid_best.shape[1]), dxref_valid_best[i], color=train_color, alpha=alpha_value, label=f"Train {i}")
     axs[0, 1].set_title("DXref profile over the horizon")
@@ -313,7 +366,7 @@ if plot_mode == "two":
     for i in range(u_log_test.shape[0]):  # Loop over test data rows
         axs[1, 1].plot(range(test_data.shape[1]), [u_min.cpu()] * test_data.shape[1], "--", c="grey")
         axs[1, 1].plot(range(test_data.shape[1]), [u_max.cpu()] * test_data.shape[1], "--", c="grey")
-        axs[1, 1].plot(range(test_data.shape[1]), u_log_test[i], color=test_color, alpha=alpha_value, label=f"Test {i}")
+        axs[1, 1].plot(range(test_data.shape[1]), u_log_test[i], alpha=alpha_value, label=f"Test {i}")
 
     for i in range(u_log_valid_best.shape[0]):  # Loop over train data rows
         axs[1, 1].plot(range(u_log_valid_best.shape[1]), u_log_valid_best[i], color=train_color, alpha=alpha_value, label=f"Train {i}")
@@ -326,12 +379,13 @@ if plot_mode == "two":
 
     # Plot 4: Test and Train Data profile
     for i in range(test_data.shape[0]):
-        axs[1, 0].plot(range(test_data.shape[1]), test_data[i], color=test_color, alpha=alpha_value, label=f"Test {i}")
+        axs[1, 0].plot(range(test_data.shape[1]), test_data[i], alpha=alpha_value, label=f"Test {i}")
     for i in range(train_data.shape[0]):
         axs[1, 0].plot(range(train_data.shape[1]), train_data[i], color=train_color, alpha=alpha_value, label=f"Train {i}")
     axs[1, 0].set_title("Test and Train Data profile over the horizon")
     axs[1, 0].set_xlabel("Time (h)")
     axs[1, 0].set_ylabel("Value")
+    axs[1, 0].set_ylim([-20,0])
     axs[1, 0].grid()
     # axs[1, 0].axvline(x = 24,  color = 'r', linestyle='dashed')
 
@@ -340,8 +394,188 @@ if plot_mode == "two":
     plt.tight_layout()
     plt.subplots_adjust(top=0.9)  # Adjust the top space to make room for the suptitle
 
-    plt.suptitle(f'System evolution (validation loss: {best_valid_loss:.2f}, test loss: {test_loss:.2f}, flat heat demand)')
+    plt.suptitle(f'System evolution (validation loss: {best_valid_loss:.2f}, test loss: {test_loss:.2f})')
 
-    plt.savefig("Evolution_drop_flat_demand.png")
+    plt.savefig("System evolution.png")
+    # Show the figure
+    plt.show()
+
+
+
+if plot_mode == "two_v2":
+
+    # Updated compute_confidence_interval to work with PyTorch tensors
+    def compute_confidence_interval(data, confidence=0.95):
+        mean = data.mean(dim=0)
+        error_margin = 1.96 * torch.std(data, dim=0) / torch.sqrt(torch.tensor(data.shape[0], dtype=torch.float32))
+        lower_bound = mean - error_margin
+        upper_bound = mean + error_margin
+        return mean, lower_bound, upper_bound
+
+    # Create a figure with a 2x2 grid of subplots
+    fig, axs = plt.subplots(2, 2, figsize=(13, 9))
+
+    # Colors for train and test data
+    train_color = "blue"
+    test_color = "red"
+    alpha_value = 0.3  # Transparency for the confidence interval fill
+
+    # Plot 1: X profile over the horizon
+    mean_test, lower_test, upper_test = compute_confidence_interval(x_log_test + T_ext.cpu())
+    mean_train, lower_train, upper_train = compute_confidence_interval(x_log_valid_best + T_ext.cpu())
+
+    axs[0, 0].plot(range(mean_test.shape[0]), mean_test.numpy(), color=test_color, label="Test Mean")
+    axs[0, 0].fill_between(range(mean_test.shape[0]), lower_test.squeeze().numpy(), upper_test.squeeze().numpy(), color=test_color, alpha=alpha_value)
+    
+    axs[0, 0].plot(range(mean_train.shape[0]), mean_train.numpy(), color=train_color, label="Train Mean")
+    axs[0, 0].fill_between(range(mean_train.shape[0]), lower_train.squeeze().numpy(), upper_train.squeeze().numpy(), color=train_color, alpha=alpha_value)
+    
+    axs[0, 0].plot(range(mean_test.shape[0]), [T_min.cpu()] * mean_test.shape[0], "--", c="grey")
+    axs[0, 0].plot(range(mean_test.shape[0]), [T_max.cpu()] * mean_test.shape[0], "--", c="grey")
+    
+    axs[0, 0].set_title("X profile over the horizon")
+    axs[0, 0].set_xlabel("Time (h)")
+    axs[0, 0].set_ylabel("Temperature (°C)")
+    axs[0, 0].grid()
+    axs[0, 0].legend(loc='upper right')  # Add legend for this subplot
+
+    # Plot 2: DXref profile over the horizon
+    mean_test_dxref, lower_test_dxref, upper_test_dxref = compute_confidence_interval(dxref_test)
+    mean_train_dxref, lower_train_dxref, upper_train_dxref = compute_confidence_interval(dxref_valid_best)
+
+    axs[0, 1].plot(range(mean_test_dxref.shape[0]), mean_test_dxref.numpy(), color=test_color, label="Test Mean")
+    axs[0, 1].fill_between(range(mean_test_dxref.shape[0]), lower_test_dxref.squeeze().numpy(), upper_test_dxref.squeeze().numpy(), color=test_color, alpha=alpha_value)
+    
+    axs[0, 1].plot(range(mean_train_dxref.shape[0]), mean_train_dxref.numpy(), color=train_color, label="Train Mean")
+    axs[0, 1].fill_between(range(mean_train_dxref.shape[0]), lower_train_dxref.squeeze().numpy(), upper_train_dxref.squeeze().numpy(), color=train_color, alpha=alpha_value)
+    
+    axs[0, 1].set_title("DXref profile over the horizon")
+    axs[0, 1].set_xlabel("Time (h)")
+    axs[0, 1].set_ylabel("Temperature (°C)")
+    axs[0, 1].grid()
+    axs[0, 1].legend(loc='upper right')  # Add legend for this subplot
+
+    # Plot 3: U profile over the horizon
+    mean_test_u, lower_test_u, upper_test_u = compute_confidence_interval(u_log_test)
+    mean_train_u, lower_train_u, upper_train_u = compute_confidence_interval(u_log_valid_best)
+
+    axs[1, 1].plot(range(mean_test_u.shape[0]), mean_test_u.numpy(), color=test_color, label="Test Mean")
+    axs[1, 1].fill_between(range(mean_test_u.shape[0]), lower_test_u.squeeze().numpy(), upper_test_u.squeeze().numpy(), color=test_color, alpha=alpha_value)
+    
+    axs[1, 1].plot(range(mean_train_u.shape[0]), mean_train_u.numpy(), color=train_color, label="Train Mean")
+    axs[1, 1].fill_between(range(mean_train_u.shape[0]), lower_train_u.squeeze().numpy(), upper_train_u.squeeze().numpy(), color=train_color, alpha=alpha_value)
+    
+    axs[1, 1].plot(range(mean_test_u.shape[0]), [u_min.cpu()] * mean_test_u.shape[0], "--", c="grey")
+    axs[1, 1].plot(range(mean_test_u.shape[0]), [u_max.cpu()] * mean_test_u.shape[0], "--", c="grey")
+    
+    axs[1, 1].set_title("U profile over the horizon")
+    axs[1, 1].set_xlabel("Time (h)")
+    axs[1, 1].set_ylabel("Energy (kWh)")
+    axs[1, 1].grid()
+    axs[1, 1].legend(loc='upper right')  # Add legend for this subplot
+
+    # Plot 4: Test and Train Data profile over the horizon
+    mean_test_data, lower_test_data, upper_test_data = compute_confidence_interval(test_data)
+    mean_train_data, lower_train_data, upper_train_data = compute_confidence_interval(train_data)
+
+    axs[1, 0].plot(range(mean_test_data.shape[0]), mean_test_data.numpy(), color=test_color, label="Test Mean")
+    axs[1, 0].fill_between(range(mean_test_data.shape[0]), lower_test_data.squeeze().numpy(), upper_test_data.squeeze().numpy(), color=test_color, alpha=alpha_value)
+    
+    axs[1, 0].plot(range(mean_train_data.shape[0]), mean_train_data.numpy(), color=train_color, label="Train Mean")
+    axs[1, 0].fill_between(range(mean_train_data.shape[0]), lower_train_data.squeeze().numpy(), upper_train_data.squeeze().numpy(), color=train_color, alpha=alpha_value)
+    
+    axs[1, 0].set_title("Test and Train Data profile over the horizon")
+    axs[1, 0].set_xlabel("Time (h)")
+    axs[1, 0].set_ylabel("Value")
+    axs[1, 0].grid()
+    axs[1, 0].legend(loc='upper right')  # Add legend for this subplot
+
+    # Adjust layout to prevent overlap
+    plt.tight_layout()
+    plt.subplots_adjust(top=0.9)
+    plt.suptitle(f'System evolution (validation loss: {best_valid_loss:.2f}, test loss: {test_loss:.2f})')
+    
+    # Save and show the figure
+    plt.savefig("Evolution_system.png")
+    plt.show()
+
+###### combined plots version 2 train and test
+if plot_mode == "new":
+    from matplotlib.colors import Normalize
+
+    train_marker = 'o'
+
+    # Create a figure with a 2x2 grid of subplots
+    fig, axs = plt.subplots(2, 2, figsize=(13, 9))
+
+    # Colormaps for train and test data
+    train_color = "black"
+    test_color = None
+    alpha_value = 1.0  # was 0.3 or 0.9
+
+    # Normalize functions for color scaling independent within each subplot
+    norm_test = Normalize(vmin=0, vmax=test_data_plot.shape[0] - 1)
+    norm_train = Normalize(vmin=0, vmax=train_data.shape[0] - 1)
+
+    # Plot 1: X profile over the horizon
+    for i in range(test_data_plot.shape[0]):
+        axs[0, 0].plot(range(test_data_plot.shape[1]), x_log_test_plot[i] + T_ext.cpu(), alpha=alpha_value, label=f"Test {i}", color = test_color)
+        axs[0, 0].plot(range(test_data_plot.shape[1]), [T_min.cpu()] * test_data_plot.shape[1], "--", color = "grey")
+        axs[0, 0].plot(range(test_data_plot.shape[1]), [T_max.cpu()] * test_data_plot.shape[1], "--", color = "grey")
+    for i in range(x_log_valid_best.shape[0]):
+        axs[0, 0].plot(range(x_log_valid_best.shape[1]), x_log_valid_best[i] + T_ext.cpu(), color = train_color, alpha=alpha_value, marker=train_marker, label=f"Train {i}")
+    axs[0, 0].set_title("X profile over the horizon")
+    axs[0, 0].set_xlabel("Time (h)")
+    axs[0, 0].set_ylabel("Temperature (°C)")
+    axs[0, 0].grid()
+    # axs[0, 0].axvline(x = 24,  color = 'r', linestyle='dashed')
+
+
+    # Plot 2: DXref profile over the horizon
+    for i in range( dxref_test_plot.shape[0]):  # Loop over test data rows
+        axs[0, 1].plot(range(test_data_plot.shape[1]), dxref_test_plot[i], alpha=alpha_value, color = test_color, label=f"Test {i}")
+    for i in range(dxref_valid_best.shape[0]):  # Loop over train data rows
+        axs[0, 1].plot(range(dxref_valid_best.shape[1]), dxref_valid_best[i], color=train_color, alpha=alpha_value,marker=train_marker, label=f"Train {i}")
+    axs[0, 1].set_title("DXref profile over the horizon")
+    axs[0, 1].set_xlabel("Time (h)")
+    axs[0, 1].set_ylabel("Temperature (°C)")
+    axs[0, 1].grid()
+    # axs[0, 1].axvline(x = 24,  color = 'r', linestyle='dashed')
+
+
+    # Plot 3: U profile over the horizon
+    for i in range(u_log_test_plot.shape[0]):  # Loop over test data rows
+        axs[1, 1].plot(range(test_data_plot.shape[1]), [u_min.cpu()] * test_data_plot.shape[1], "--", c="grey")
+        axs[1, 1].plot(range(test_data_plot.shape[1]), [u_max.cpu()] * test_data_plot.shape[1], "--", c="grey")
+        axs[1, 1].plot(range(test_data_plot.shape[1]), u_log_test_plot[i], alpha=alpha_value, color = test_color, label=f"Test {i}")
+
+    for i in range(u_log_valid_best.shape[0]):  # Loop over train data rows
+        axs[1, 1].plot(range(u_log_valid_best.shape[1]), u_log_valid_best[i], color=train_color, alpha=alpha_value, marker=train_marker, label=f"Train {i}")
+    axs[1, 1].set_title("U profile over the horizon")
+    axs[1, 1].set_xlabel("Time (h)")
+    axs[1, 1].set_ylabel("Energy (kWh)")
+    axs[1, 1].grid()
+    # axs[1, 1].axvline(x = 24,  color = 'r', linestyle='dashed')
+
+
+    # Plot 4: Test and Train Data profile
+    for i in range(test_data_plot.shape[0]):
+        axs[1, 0].plot(range(test_data_plot.shape[1]), test_data_plot[i], color = test_color, alpha=alpha_value, label=f"Test {i}")
+    for i in range(train_data.shape[0]):
+        axs[1, 0].plot(range(train_data.shape[1]), train_data[i], color=train_color, alpha=alpha_value, marker=train_marker, label=f"Train {i}")
+    axs[1, 0].set_title("Test and Train Data profile over the horizon")
+    axs[1, 0].set_xlabel("Time (h)")
+    axs[1, 0].set_ylabel("Value")
+    axs[1, 0].set_ylim([-20,0])
+    axs[1, 0].grid()
+    # axs[1, 0].axvline(x = 24,  color = 'r', linestyle='dashed')
+
+    # Adjust layout to prevent overlap
+    plt.tight_layout()
+    plt.subplots_adjust(top=0.9)  # Adjust the top space to make room for the suptitle
+
+    plt.suptitle(f'System evolution (training loss: {best_valid_loss:.2f}, test loss: {test_loss:.2f})')
+
+    plt.savefig("System evolution.png")
     # Show the figure
     plt.show()

@@ -1,0 +1,20 @@
+2024-12-09 11:57:46,551 ---------- SVGD ----------
+
+
+2024-12-09 11:57:46,551 None
+2024-12-09 11:57:46,731 [INFO] Controller is of type Perf Booster and has 921 parameters.
+2024-12-09 11:57:46,733 gibbs_lambda: 9.60 (use lambda_*)
+2024-12-09 11:57:46,734 [INFO] initialized particles with given value.
+2024-12-09 11:57:47,266 ------------ Begin training ------------
+2024-12-09 11:57:47,299 Iter 0/8, Valid Loss: 0.9966
+2024-12-09 11:57:47,417 Epoch 1/8 - Time 0.09 sec - SVGD Loss in epoch -2646.1423, Valid Loss: 0.8410 *** best valid loss ***
+2024-12-09 11:57:47,528 Epoch 2/8 - Time 0.11 sec - SVGD Loss in epoch -2644.8403, Valid Loss: 0.0630 *** best valid loss ***
+2024-12-09 11:57:47,686 Epoch 3/8 - Time 0.16 sec - SVGD Loss in epoch -2639.2307, Valid Loss: 0.0840
+2024-12-09 11:57:47,809 Epoch 4/8 - Time 0.12 sec - SVGD Loss in epoch -2639.4246, Valid Loss: 0.0649
+2024-12-09 11:57:47,936 Epoch 5/8 - Time 0.13 sec - SVGD Loss in epoch -2639.2493, Valid Loss: 0.0622 *** best valid loss ***
+2024-12-09 11:57:48,047 Epoch 6/8 - Time 0.11 sec - SVGD Loss in epoch -2639.2244, Valid Loss: 0.0631
+2024-12-09 11:57:48,170 Epoch 7/8 - Time 0.11 sec - SVGD Loss in epoch -2639.2246, Valid Loss: 0.0606 *** best valid loss ***
+2024-12-09 11:57:48,283 Epoch 8/8 - Time 0.12 sec - SVGD Loss in epoch -2639.2068, Valid Loss: 0.0605 *** best valid loss ***
+2024-12-09 11:57:48,283 Training completed.
+2024-12-09 11:57:48,347 Final results on the entire train data: Bounded train loss = 0.0605, original train loss = 15.1494
+2024-12-09 11:57:48,427 True bounded test loss = 0.0579, true original test loss = 14.4871 (approximated using 1000 test rollouts).

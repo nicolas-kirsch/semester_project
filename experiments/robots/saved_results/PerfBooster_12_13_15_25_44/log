@@ -1,0 +1,10 @@
+2024-12-13 15:25:44,901 ---------- SVGD ----------
+
+
+2024-12-13 15:25:44,904 None
+2024-12-13 15:25:45,111 [INFO] Controller is of type Perf Booster and has 921 parameters.
+2024-12-13 15:25:45,111 gibbs_lambda: 52.57 (use lambda_*)
+2024-12-13 15:25:45,111 [INFO] initialized particles with given value.
+2024-12-13 15:25:46,071 ------------ Begin training ------------
+2024-12-13 15:25:46,170 Iter 0/5000, Valid Loss: 0.9963
+2024-12-13 15:26:15,442 Epoch 250/5000 - Time 29.21 sec - SVGD Loss in epoch -0.0549, Valid Loss: 0.0538 *** best valid loss ***

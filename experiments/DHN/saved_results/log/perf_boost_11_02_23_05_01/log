@@ -1,0 +1,13 @@
+2024-11-02 23:05:02,427 
+------------ Begin training ------------
+2024-11-02 23:05:02,570 Epoch: 0 --- TRAIN LOSS : 1554.41 --- Loss xl : 1544.53, Loss xh : 0.00 ---||---  VALIDATION LOSS: 1140.13  --- Loss xl: 1128.19 ---  Loss xh: 0.00 (*** best so far ***) ---||--- time: 0 s
+2024-11-02 23:05:02,703 Epoch: 1 --- TRAIN LOSS : 1140.13 --- Loss xl : 1128.19, Loss xh : 0.00 ---||---  VALIDATION LOSS: 575.64  --- Loss xl: 561.42 ---  Loss xh: 0.00 (*** best so far ***) ---||--- time: 0 s
+2024-11-02 23:05:02,819 Epoch: 2 --- TRAIN LOSS : 575.64 --- Loss xl : 561.42, Loss xh : 0.00 ---||---  VALIDATION LOSS: 128.18  --- Loss xl: 86.30 ---  Loss xh: 23.80 (*** best so far ***) ---||--- time: 0 s
+2024-11-02 23:05:02,953 Epoch: 3 --- TRAIN LOSS : 128.18 --- Loss xl : 86.30, Loss xh : 23.80 ---||---  VALIDATION LOSS: 246.69  --- Loss xl: 0.01 ---  Loss xh: 224.31 ---||--- time: 0 s
+2024-11-02 23:05:03,085 Epoch: 4 --- TRAIN LOSS : 246.69 --- Loss xl : 0.01, Loss xh : 224.31 ---||---  VALIDATION LOSS: 89.24  --- Loss xl: 11.09 ---  Loss xh: 58.98 (*** best so far ***) ---||--- time: 0 s
+2024-11-02 23:05:03,200 Epoch: 5 --- TRAIN LOSS : 89.24 --- Loss xl : 11.09, Loss xh : 58.98 ---||---  VALIDATION LOSS: 216.72  --- Loss xl: 198.24 ---  Loss xh: 1.64 ---||--- time: 0 s
+2024-11-02 23:05:03,335 Epoch: 6 --- TRAIN LOSS : 216.72 --- Loss xl : 198.24, Loss xh : 1.64 ---||---  VALIDATION LOSS: 179.43  --- Loss xl: 156.62 ---  Loss xh: 5.58 ---||--- time: 0 s
+2024-11-02 23:05:03,468 Epoch: 7 --- TRAIN LOSS : 179.43 --- Loss xl : 156.62, Loss xh : 5.58 ---||---  VALIDATION LOSS: 96.28  --- Loss xl: 24.19 ---  Loss xh: 53.26 ---||--- time: 0 s
+2024-11-02 23:05:03,602 Epoch: 8 --- TRAIN LOSS : 96.28 --- Loss xl : 24.19, Loss xh : 53.26 ---||---  VALIDATION LOSS: 153.73  --- Loss xl: 0.00 ---  Loss xh: 133.15 ---||--- time: 0 s
+2024-11-02 23:05:03,736 Epoch: 9 --- TRAIN LOSS : 153.73 --- Loss xl : 0.00, Loss xh : 133.15 ---||---  VALIDATION LOSS: 166.83  --- Loss xl: 0.00 ---  Loss xh: 145.93 ---||--- time: 0 s
+2024-11-02 23:05:03,867 Epoch: 10 --- TRAIN LOSS : 166.83 --- Loss xl : 0.00, Loss xh : 145.93 ---||---  VALIDATION LOSS: 106.25  --- Loss xl: 0.03 ---  Loss xh: 86.32 ---||--- time: 0 s
