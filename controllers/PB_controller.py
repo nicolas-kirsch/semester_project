@@ -20,7 +20,7 @@ class PerfBoostController(nn.Module):
     def __init__(
         self, noiseless_forward, input_init: torch.Tensor, output_init: torch.Tensor,
         # acyclic REN properties
-        dim_internal: int, dim_nl: int,
+        dim_internal: int, dim_nl: int,dmax= None,dmin=None,
         initialization_std: float = 0.5,
         posdef_tol: float = 0.001, contraction_rate_lb: float = 1.0,
         ren_internal_state_init=None,
@@ -55,6 +55,9 @@ class PerfBoostController(nn.Module):
         # set dimensions
         self.dim_in = self.input_init.shape[-1]
         self.dim_out = self.output_init.shape[-1]
+
+        self.dmax = dmax
+        self.dmin = dmin
 
         # define the REN
         self.c_ren = ContractiveREN(
@@ -109,10 +112,14 @@ class PerfBoostController(nn.Module):
         # reconstruct the noise
         w_ = input_t - u_noiseless # shape = (self.batch_size, 1, self.dim_in)
 
+        w_ = (w_-self.dmin)/(self.dmax-self.dmin)
+        # apply REN
+
+
         # apply REN
         output = self.c_ren.forward(w_)
-        output = output*self.output_amplification   # shape = (self.batch_size, 1, self.dim_out)
-
+        output = output*(self.dmax-self.dmin)+self.dmin   # shape = (self.batch_size, 1, self.dim_out)
+ 
         # update internal states
         self.last_input, self.last_output = input_t, output
         self.t += 1
@@ -128,6 +135,9 @@ class PerfBoostController(nn.Module):
     # # def get_parameters_as_vector(self):
     # #     # TODO: implement without numpy
     # #     return np.concatenate([p.detach().clone().cpu().numpy().flatten() for p in self.c_ren.parameters()])
+
+    def get_parameters_as_vector_reduced(self):
+        return self.c_ren.get_parameters_as_vector_reduced()
 
     def set_parameter(self, name, value):
         param_shape = getattr(self.c_ren, name+'_shape')

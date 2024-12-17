@@ -151,7 +151,6 @@ class old_ContractiveREN(nn.Module):
 
         # compute output
         y_out = F.linear(self.x, self.C2) + F.linear(w, self.D21) + F.linear(u_in, self.D22) # + self.b_y   ##
-
         return y_out
 
     # init trainable params
@@ -177,7 +176,7 @@ class old_ContractiveREN(nn.Module):
         params = pickle.load(filehandler)
         filehandler.close()
         params["b_y"][0,0] = self.initial_by
-        print(params["b_y"])
+
         #params["b_y"] = torch.tensor([params["b_y"],2]).reshape(1,2)
 
         for training_param_name in self.training_param_names:  # name of one of the training params, e.g., X

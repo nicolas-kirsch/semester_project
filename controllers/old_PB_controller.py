@@ -20,8 +20,8 @@ class old_PerfBoostController(nn.Module):
     def __init__(
         self, noiseless_forward, input_init: torch.Tensor, output_init: torch.Tensor,
         # acyclic REN properties
-        dim_internal: int, dim_nl: int, dmax= None,dmin=None,initial_by:float = -0.03,
-        initialization_std: float = 0.5,
+        dim_internal: int, dim_nl: int, initial_by:float = -0.03,dmax= None,dmin=None,
+        initialization_std: float = 0.5,train_method: str = 'SVGD',
         posdef_tol: float = 0.001, contraction_rate_lb: float = 1.0,
         ren_internal_state_init=None,
         # misc
@@ -54,11 +54,11 @@ class old_PerfBoostController(nn.Module):
         self.dim_out = self.output_init.shape[-1]
         #self.dim_out = 1
 
-        self.dmax = dmax
-        self.dmin = dmin
-
         umin = torch.tensor(2).to(device)
         umax = torch.tensor(4).to(device)
+
+        self.dmax = dmax
+        self.dmin = dmin
 
         # define the REN
         self.c_ren = ContractiveREN(
@@ -106,7 +106,7 @@ class old_PerfBoostController(nn.Module):
         # reconstruct the noise
         w_ = input_t - u_noiseless # shape = (self.batch_size, 1, self.dim_in)
 
-        
+
         w_ = (w_-self.dmin)/(self.dmax-self.dmin)
         # apply REN
 
@@ -114,6 +114,7 @@ class old_PerfBoostController(nn.Module):
 
 
         u = u*(self.dmax-self.dmin)+self.dmin
+
 
         """u = torch.tanh(u_tilde)
 

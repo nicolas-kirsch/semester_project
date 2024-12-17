@@ -156,6 +156,8 @@ class ContractiveREN(nn.Module):
         wD21T = torch.matmul(w, self.D21.transpose(-1, -2))
         uD22T = torch.matmul(u_in, self.D22.transpose(-1, -2))
         y_out = xC2T + wD21T + uD22T
+
+
         return y_out
 
     # init trainable params
@@ -196,6 +198,19 @@ class ContractiveREN(nn.Module):
             else:
                 vec = torch.cat((vec, getattr(self, name).flatten()), 0)
         return vec
+    
+    def get_parameters_as_vector_reduced(self):
+        vec = None
+        for name in self.training_param_names:
+            if name in ['X', 'Y', 'B2', 'C2', 'D21', 'D12', 'D22']:
+                if vec is None:
+                    vec = getattr(self, name).flatten()
+                else:
+                    vec = torch.cat((vec, getattr(self, name).flatten()), 0)
+            else:
+                continue
+        return vec
+
 
     def reset(self):
         self.x = self.init_x.detach().clone()

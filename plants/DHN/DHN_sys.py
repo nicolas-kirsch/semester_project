@@ -160,7 +160,8 @@ class DHNSystem(torch.nn.Module):
                 (us, self.u_cont),
                 1
             )
-            
+        
+
         controller.reset()
 
         dxref = dxref     ##

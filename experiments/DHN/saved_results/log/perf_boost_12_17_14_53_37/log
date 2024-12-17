@@ -1,0 +1,23 @@
+2024-12-17 14:53:37,500 
+------------ Begin training ------------
+2024-12-17 14:53:37,557 Epoch: 0 --- TRAIN LOSS : 1348.07 --- Loss xl : 1342.26, Loss xh : 0.00 ---||---  VALIDATION LOSS: 1127.57  --- Loss xl: 1120.63 ---  Loss xh: 0.00 (*** best so far ***) ---||--- time: 0 s
+2024-12-17 14:53:49,481 Epoch: 400 --- TRAIN LOSS : 13.16 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 13.22  --- Loss xl: 0.00 ---  Loss xh: 0.00 (*** best so far ***) ---||--- time: 12 s
+2024-12-17 14:54:01,341 Epoch: 800 --- TRAIN LOSS : 13.42 --- Loss xl : 0.00, Loss xh : 0.04 ---||---  VALIDATION LOSS: 13.23  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 12 s
+2024-12-17 14:54:13,186 Epoch: 1200 --- TRAIN LOSS : 13.25 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 13.61  --- Loss xl: 0.00 ---  Loss xh: 0.16 ---||--- time: 12 s
+2024-12-17 14:54:25,043 Epoch: 1600 --- TRAIN LOSS : 12.97 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 13.35  --- Loss xl: 0.48 ---  Loss xh: 0.00 ---||--- time: 12 s
+2024-12-17 14:54:36,833 Epoch: 2000 --- TRAIN LOSS : 13.47 --- Loss xl : 0.23, Loss xh : 0.46 ---||---  VALIDATION LOSS: 12.96  --- Loss xl: 0.00 ---  Loss xh: 0.00 (*** best so far ***) ---||--- time: 12 s
+2024-12-17 14:54:48,649 Epoch: 2400 --- TRAIN LOSS : 12.88 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 13.06  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 12 s
+2024-12-17 14:55:00,504 Epoch: 2800 --- TRAIN LOSS : 12.92 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 12.83  --- Loss xl: 0.09 ---  Loss xh: 0.00 (*** best so far ***) ---||--- time: 12 s
+2024-12-17 14:55:12,297 Epoch: 3200 --- TRAIN LOSS : 13.11 --- Loss xl : 0.00, Loss xh : 0.03 ---||---  VALIDATION LOSS: 13.10  --- Loss xl: 0.00 ---  Loss xh: 0.03 ---||--- time: 12 s
+2024-12-17 14:55:24,178 Epoch: 3600 --- TRAIN LOSS : 12.98 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 13.00  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 12 s
+2024-12-17 14:55:36,018 Epoch: 4000 --- TRAIN LOSS : 12.93 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 12.92  --- Loss xl: 0.01 ---  Loss xh: 0.00 ---||--- time: 12 s
+2024-12-17 14:55:47,847 Epoch: 4400 --- TRAIN LOSS : 12.93 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 12.99  --- Loss xl: 0.09 ---  Loss xh: 0.00 ---||--- time: 12 s
+2024-12-17 14:55:59,661 Epoch: 4800 --- TRAIN LOSS : 13.25 --- Loss xl : 0.36, Loss xh : 0.00 ---||---  VALIDATION LOSS: 13.21  --- Loss xl: 0.32 ---  Loss xh: 0.00 ---||--- time: 12 s
+2024-12-17 14:56:11,463 Epoch: 5200 --- TRAIN LOSS : 12.87 --- Loss xl : 0.00, Loss xh : 0.03 ---||---  VALIDATION LOSS: 12.85  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 12 s
+2024-12-17 14:56:23,386 Epoch: 5600 --- TRAIN LOSS : 12.82 --- Loss xl : 0.05, Loss xh : 0.00 ---||---  VALIDATION LOSS: 12.86  --- Loss xl: 0.08 ---  Loss xh: 0.00 ---||--- time: 12 s
+2024-12-17 14:56:35,225 Epoch: 6000 --- TRAIN LOSS : 12.75 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 13.00  --- Loss xl: 0.38 ---  Loss xh: 0.00 ---||--- time: 12 s
+2024-12-17 14:56:47,130 Epoch: 6400 --- TRAIN LOSS : 12.90 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 12.93  --- Loss xl: 0.00 ---  Loss xh: 0.02 ---||--- time: 12 s
+2024-12-17 14:56:58,939 Epoch: 6800 --- TRAIN LOSS : 12.86 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 12.85  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 12 s
+2024-12-17 14:57:10,816 Epoch: 7200 --- TRAIN LOSS : 12.85 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 12.84  --- Loss xl: 0.00 ---  Loss xh: 0.00 ---||--- time: 12 s
+2024-12-17 14:57:22,670 Epoch: 7600 --- TRAIN LOSS : 12.77 --- Loss xl : 0.00, Loss xh : 0.00 ---||---  VALIDATION LOSS: 12.77  --- Loss xl: 0.01 ---  Loss xh: 0.00 (*** best so far ***) ---||--- time: 12 s
+2024-12-17 14:57:34,468 Epoch: 8000 --- TRAIN LOSS : 12.66 --- Loss xl : 0.10, Loss xh : 0.00 ---||---  VALIDATION LOSS: 12.61  --- Loss xl: 0.00 ---  Loss xh: 0.00 (*** best so far ***) ---||--- time: 12 s

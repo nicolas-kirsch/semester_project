@@ -1,7 +1,6 @@
 import sys, os, logging, torch, math
 from datetime import datetime
 from torch.utils.data import DataLoader
-from pyro.distributions import Normal
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(1, BASE_DIR)
@@ -114,9 +113,9 @@ sys = DHNSystem(
 
 from controllers import old_PerfBoostController as old_PerfBoostController
 
-empirical_ctl = old_PerfBoostController(
+empirical_ctl = PerfBoostController(
     noiseless_forward=sys.noiseless_forward,
-    input_init=sys.x_init, output_init=sys.u_init, dmin=min_train,dmax = max_train,
+    input_init=sys.x_init, output_init=sys.u_init, #dmin=min_train,dmax = max_train,
     dim_internal=args.dim_internal, dim_nl=args.l,
     initialization_std=args.cont_init_std,
     output_amplification=20,
@@ -124,8 +123,10 @@ empirical_ctl = old_PerfBoostController(
 # print("empirical params: ", empirical_ctl.get_parameters_as_vector())
 print(" *** empirical params shape: ", empirical_ctl.get_parameters_as_vector().shape)
 
-# *************
 
+params_empir = empirical_ctl.get_named_parameters()
+
+# *************
 ctl_generic = PerfBoostController(
     noiseless_forward=sys.noiseless_forward,
     input_init=sys.x_init, output_init=sys.u_init,
@@ -134,8 +135,21 @@ ctl_generic = PerfBoostController(
     output_amplification=20, train_method=TRAIN_METHOD
 ).to(device)
 
+ctl_generic.set_parameters(params_empir)
+
 print(" *** SVGD params shape: ", ctl_generic.get_parameters_as_vector().shape)
 
+
+x_log_tenta, u_log_tenta, dxref_tenta = sys.rollout(
+        controller=ctl_generic, data=test_data
+    )
+
+
+x_log_tenta, u_log_tenta, dxref_tenta = sys.rollout(
+        controller=empirical_ctl, data=test_data
+    )
+print(empirical_ctl.c_ren.B2)
+print(ctl_generic.c_ren.B2)
     # elif args.cont_type=='Affine':
     #     ctl_generic = AffineController(
     #         weight=torch.zeros(sys.in_dim, sys.state_dim, device=device, dtype=torch.float32),
@@ -258,7 +272,6 @@ svgd_cont = SVGDCont(
 )
 msg = '\n[INFO] SVGD: delta: %.2f' % args.delta + ' -- num particles: %2.f' % num_particles
 msg += ' -- initialization std: %.4f' % initialization_std
-
 
 # ****** TRAIN SVGD ******
 

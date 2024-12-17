@@ -12,7 +12,7 @@ sys.path.insert(1, BASE_DIR)
 
 
 from config import device
-from controllers import old_PerfBoostController as PerfBoostController
+from controllers import  PerfBoostController #
 from arg_parser import argument_parser
 from plants import DHNDataset, DHNSystem
 from assistive_functions import WrapLogger
@@ -60,6 +60,9 @@ dxref_max = x_max - x_ref
 u_min = torch.Tensor([0]).to(device)
 u_max = torch.Tensor([12.8]).to(device)
 
+
+
+
 gamma = 0.99
 
 # ------------ 1. Dataset ------------  
@@ -96,16 +99,14 @@ sys = DHNSystem(
 
 ctl = PerfBoostController(
     noiseless_forward=sys.noiseless_forward,
-    input_init=sys.x_init, output_init=sys.u_init,dmin=min_train,dmax = max_train,
+    input_init=sys.x_init, output_init=sys.u_init,dmin=min_train,dmax = max_train,train_method="empirical",
     dim_internal=args.dim_internal, dim_nl=args.l,
     initialization_std=args.cont_init_std,
     output_amplification=20,
 ).to(device)
 
 print(" **** shape of total parameters: ",ctl.get_parameters_as_vector().shape)
-
-initial_parameters = ctl.get_parameters_as_vector_reduced().unsqueeze(dim=0)
-print("Relevant initial parameters: ", initial_parameters[0, 0:50])
+print(ctl.c_ren.B2)
 
 # ------------ 4. Loss ------------
 #Size of the minimization 
@@ -115,6 +116,11 @@ loss_fn = DHNLoss(
     alpha_xh=50,   
     alpha_xl=50,   
 )
+
+"""x_log_tenta, u_log_tenta, dxref_tenta = sys.rollout(
+        controller=ctl, data=test_data
+    )
+print("ZAZAZAZAZAZ",dxref_tenta[0])"""
 
 # ------------ 5. Optimizer ------------
 optimizer = torch.optim.Adam(ctl.parameters(), lr=args.lr)
@@ -131,7 +137,6 @@ for epoch in range(1+args.epochs):
 
         # simulate over horizon steps
         x_log, u_log, dxref = sys.rollout(controller=ctl, data=train_data_batch)
-
         # loss of this rollout
         loss = loss_fn.forward(x_log, u_log)
 
